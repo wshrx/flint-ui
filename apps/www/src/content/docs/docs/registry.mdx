@@ -1,0 +1,63 @@
+---
+title: Registry
+description: The JSON format, and how to add a component to flint.
+---
+
+`registry/registry.json` is the contract between the source tree, the CLI and the docs. It follows
+the shadcn/ui schema, so the same file can be consumed by `shadcn` if you ever need to.
+
+## The file
+
+```json
+{
+  "$schema": "https://wshrx.github.io/flint-ui/schema/registry.json",
+  "name": "flint",
+  "items": [
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "description": "Portal, backdrop and surface with a close control.",
+      "registryDependencies": ["theme", "utils", "theme-provider", "icon", "text"],
+      "files": [{ "path": "components/ui/dialog.tsx", "type": "registry:ui" }]
+    }
+  ]
+}
+```
+
+| Field | Required | Notes |
+| --- | --- | --- |
+| `name` | yes | what you pass to `add` |
+| `type` | yes | `registry:ui`, `registry:lib` or `registry:file` |
+| `description` | no | shown by `list` |
+| `registryDependencies` | no | names resolved and copied first |
+| `files[].path` | yes | relative to the registry root, and the path written into the project |
+| `files[].type` | yes | kept for compatibility; the CLI copies binary files too |
+
+Paths are preserved on purpose. `components/ui/button.tsx` becomes `<root>/components/ui/button.tsx`,
+and its `@/lib/flint/...` imports keep working because the project maps `@/*` to its source root.
+
+## Adding a component
+
+1. Write the component in `registry/components/ui/name.tsx`. Import shared code through `@/lib/flint/...`
+   so the file works unchanged after it is copied.
+2. Add a demo under `apps/www/src/content/docs/docs/components/name.mdx`, with a preview and the
+   source rendered from the file.
+3. Add the item to `registry.json`, listing every file and every dependency.
+4. Run the checks:
+
+```bash
+bun run typecheck
+bun run contrast
+bun run registry:check
+bun run build
+```
+
+`registry:check` verifies that every file named in the JSON exists, that every dependency resolves,
+and that no item depends on itself.
+
+## Rules the registry enforces
+
+- No component imports another component's file unless the dependency is declared.
+- No component imports from `@/components/...` in the shared library. Library code is leaf code.
+- A file named in the registry must not import `node:*` unless it is the font helper.
+- Every `<text>` gets a colour from `Text` or from a token. A bare `<text>` paints black.

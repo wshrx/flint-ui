@@ -1,0 +1,154 @@
+---
+/**
+ * Interactive hero art.
+ *
+ * A night sky with a cold flame on dark, a blooming sun on light. The scene
+ * follows the pointer with a small parallax, the cursor carries a soft glow,
+ * and a click throws a handful of sparks. Motion is skipped for
+ * `prefers-reduced-motion`.
+ */
+const stars = Array.from({ length: 56 }, (_, i) => ({
+  x: ((i * 197) % 1160) + 20,
+  y: ((i * 83) % 330) + 24,
+  r: 0.6 + (i % 3) * 0.45,
+  delay: (i % 9) * 0.42,
+}))
+
+const embers = Array.from({ length: 12 }, (_, i) => ({
+  x: 520 + ((i * 53) % 160),
+  delay: (i % 6) * 0.9,
+  duration: 4.5 + (i % 4) * 0.9,
+  drift: (i % 2 === 0 ? -1 : 1) * (6 + (i % 4) * 4),
+}))
+
+const rays = Array.from({ length: 24 }, (_, i) => i * 15)
+---
+
+<div class="flint-art" data-flint-art aria-hidden="true">
+  <svg class="flint-art-dark" viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid slice" fill="none">
+    <defs>
+      <radialGradient id="fa-sky" cx="50%" cy="78%" r="62%">
+        <stop offset="0" stop-color="#38BDF8" stop-opacity="0.26" />
+        <stop offset="0.55" stop-color="#0EA5E9" stop-opacity="0.07" />
+        <stop offset="1" stop-color="#0EA5E9" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="fa-flame" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#0284C7" stop-opacity="0" />
+        <stop offset="0.45" stop-color="#38BDF8" stop-opacity="0.5" />
+        <stop offset="1" stop-color="#E0F2FE" stop-opacity="0.85" />
+      </linearGradient>
+      <radialGradient id="fa-aurora" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#38BDF8" stop-opacity="0.16" />
+        <stop offset="1" stop-color="#38BDF8" stop-opacity="0" />
+      </radialGradient>
+      <filter id="fa-blur" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="22" />
+      </filter>
+      <filter id="fa-soft" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="8" />
+      </filter>
+    </defs>
+
+    <ellipse cx="600" cy="500" rx="470" ry="230" fill="url(#fa-sky)" />
+    <ellipse cx="380" cy="180" rx="300" ry="150" fill="url(#fa-aurora)" filter="url(#fa-blur)" />
+    <ellipse cx="880" cy="140" rx="260" ry="130" fill="url(#fa-aurora)" filter="url(#fa-blur)" opacity="0.7" />
+
+    <g>
+      {stars.map((star) => (
+        <circle
+          class="fa-star"
+          cx={star.x}
+          cy={star.y}
+          r={star.r}
+          fill="#E0F2FE"
+          opacity="0.55"
+          style={`--d:${star.delay}s`}
+        />
+      ))}
+    </g>
+
+    <g>
+      {embers.map((ember) => (
+        <circle
+          class="fa-ember"
+          cx={ember.x}
+          cy="540"
+          r="1.8"
+          fill="#7DD3FC"
+          style={`--delay:${ember.delay}s; --dur:${ember.duration}s; --drift:${ember.drift}px`}
+        />
+      ))}
+    </g>
+  </svg>
+
+  <svg class="flint-art-light" viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid slice" fill="none">
+    <defs>
+      <radialGradient id="fa-sun-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#7DD3FC" stop-opacity="0.38" />
+        <stop offset="0.55" stop-color="#7DD3FC" stop-opacity="0.12" />
+        <stop offset="1" stop-color="#7DD3FC" stop-opacity="0" />
+      </radialGradient>
+      <radialGradient id="fa-sun-core" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#FFFFFF" />
+        <stop offset="1" stop-color="#BAE6FD" />
+      </radialGradient>
+      <filter id="fa-sun-blur" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="18" />
+      </filter>
+    </defs>
+
+    <ellipse cx="600" cy="240" rx="460" ry="300" fill="url(#fa-sun-glow)" />
+  </svg>
+
+  <div class="flint-art-cursor" data-cursor></div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-flint-art]")
+  const hero = root?.closest<HTMLElement>(".flint-hero")
+  const cursor = root?.querySelector<HTMLElement>("[data-cursor]")
+
+  if (root && hero && cursor) {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    let frame = 0
+
+    const move = (event: PointerEvent) => {
+      if (reduce) return
+      const rect = hero.getBoundingClientRect()
+      const x = (event.clientX - rect.left) / rect.width
+      const y = (event.clientY - rect.top) / rect.height
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        root.style.setProperty("--px", (x - 0.5).toFixed(3))
+        root.style.setProperty("--py", (y - 0.5).toFixed(3))
+        cursor.style.setProperty("--cx", `${Math.round(x * 100)}%`)
+        cursor.style.setProperty("--cy", `${Math.round(y * 100)}%`)
+      })
+    }
+
+    const spark = (event: PointerEvent) => {
+      if (reduce) return
+      const rect = hero.getBoundingClientRect()
+      const x = ((event.clientX - rect.left) / rect.width) * 100
+      const y = ((event.clientY - rect.top) / rect.height) * 100
+      for (let i = 0; i < 7; i++) {
+        const dot = document.createElement("span")
+        dot.className = "flint-spark"
+        dot.style.left = `${x}%`
+        dot.style.top = `${y}%`
+        dot.style.setProperty("--dx", `${(Math.random() - 0.5) * 90}px`)
+        dot.style.setProperty("--dy", `${-20 - Math.random() * 70}px`)
+        dot.style.setProperty("--delay", `${Math.random() * 80}ms`)
+        root.appendChild(dot)
+        window.setTimeout(() => dot.remove(), 1100)
+      }
+    }
+
+    hero.addEventListener("pointermove", move)
+    hero.addEventListener("pointerdown", spark)
+    hero.addEventListener("pointerleave", () => {
+      root.style.setProperty("--px", "0")
+      root.style.setProperty("--py", "0")
+    })
+  }
+</script>

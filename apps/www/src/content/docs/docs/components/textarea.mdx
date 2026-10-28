@@ -1,0 +1,42 @@
+---
+title: Textarea
+description: The Input surface, growing between three and eight rows.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/textarea.tsx?raw"
+
+## Usage
+
+```tsx
+import { Textarea } from "@/components/ui/textarea"
+
+<Textarea
+  value={about}
+  onChange={(event) => setAbout(event.value ?? "")}
+  minRows={3}
+  maxRows={8}
+/>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>minRows</code></td><td><code>number</code></td><td><code>3</code></td></tr>
+    <tr><td><code>maxRows</code></td><td><code>number</code></td><td><code>8</code></td></tr>
+    <tr><td><code>invalid</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>style</code></td><td><code>StyleDesc</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+Rows are counted by GPUI, not by a `rows` attribute. Past `maxRows` the editor scrolls inside the
+surface; the wrapper does not grow, so a long paste cannot push the footer off screen.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/textarea.tsx" />

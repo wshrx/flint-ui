@@ -1,0 +1,154 @@
+---
+title: Installation
+description: Add flint to an existing GPUIX app in five steps.
+slug: v0.1/docs/installation
+---
+
+flint is not a package you install and import from. It is a set of files that land in your
+repository, plus the tokens they read. `flint-ui` is only the courier.
+
+## Requirements
+
+* Bun 1.4.4 or newer.
+* A GPUIX app on `@gpuix/react` 0.11.0. Pin `@gpuix/react` and `@gpuix/native` to the **same exact
+  version** — GPUIX is pre-1.0 and the adapter and the native addon move together.
+* TypeScript 5.5 or newer. flint is typechecked with TypeScript 7.0.2.
+
+## 1. Install the CLI
+
+```bash
+curl -fsSL https://wshrx.github.io/flint-ui/install.sh | sh
+```
+
+```powershell
+irm https://wshrx.github.io/flint-ui/install.ps1 | iex
+```
+
+One self-contained binary for Linux, macOS and Windows — no npm, no Node, nothing to keep in a
+`package.json`. On Unix it lands in `~/.local/bin`, on Windows in `%LOCALAPPDATA%\flint`;
+`FLINT_VERSION=0.1.0` pins a release and `FLINT_BIN_DIR` moves the target directory.
+
+## 2. Initialise
+
+```bash
+flint-ui init
+```
+
+This writes `flint.json` and copies the shared files:
+
+```text
+src/lib/flint/theme.ts            light and dark tokens
+src/lib/flint/utils.ts            mergeStyle, the object equivalent of cn()
+src/lib/flint/theme-provider.tsx  ThemeProvider, useTheme
+src/lib/flint/text.tsx            Text, with a guaranteed colour
+src/lib/flint/icon.tsx            Icon over <svg source>
+src/lib/flint/icons/index.ts      the SVG strings components need
+src/lib/flint/use-controllable.ts controlled/uncontrolled state
+src/lib/flint/fonts.ts            registerFont helper
+src/lib/fonts/*.ttf               Medeo Sans and Medeo Mono
+```
+
+Use `--root` if your code is not in `src`:
+
+```bash
+flint-ui init --root app
+```
+
+## 3. Point TypeScript at GPUIX and at your source root
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@gpuix/react",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+`jsxImportSource` is not optional. Without it TypeScript uses DOM types, and every GPUIX prop —
+including `hover` and `<text>` — fails to typecheck.
+
+## 4. Add the provider and the fonts
+
+```tsx title="app.tsx"
+import { useEffect, useState } from "react"
+import { render, useGpuixRequired } from "@gpuix/react"
+import { ThemeProvider, flintDark, flintLight, registerFlintFonts } from "@/lib/flint"
+
+function Boot() {
+  const renderer = useGpuixRequired()
+  useEffect(() => {
+    registerFlintFonts(renderer, { dir: "./fonts" })
+  }, [renderer])
+  return null
+}
+
+function App() {
+  const [dark, setDark] = useState(true)
+  return (
+    <ThemeProvider theme={dark ? flintDark : flintLight}>
+      <Boot />
+      {/* your tree */}
+    </ThemeProvider>
+  )
+}
+
+render(<App />, { title: "My app", width: 960, height: 640 })
+```
+
+`registerFont` only works after the window exists, which is why it runs in an effect and not at
+module scope. Calling it before `render()` throws `GPUI application is not initialized`.
+
+The browser build has no `registerFont`. Load the same files with `FontFace` there.
+
+## 5. Add components
+
+```bash
+flint-ui add button
+flint-ui add dialog select tabs
+flint-ui list
+```
+
+Each name pulls its own dependencies, so `add dialog` also brings `theme`, `utils`, `icon` and
+`text` if you do not have them. Existing files are never replaced unless you pass `--overwrite`.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+export function Save() {
+  return (
+    <div style={{ display: "flex", gap: 8 }}>
+      <Input placeholder="Name" style={{ width: 220 }} />
+      <Button>Save</Button>
+    </div>
+  )
+}
+```
+
+## Where the files go
+
+`flint.json` records the root. The registry keeps the rest of the path, so the layout is stable
+across projects:
+
+```json title="flint.json"
+{
+  "root": "src",
+  "registry": "https://raw.githubusercontent.com/flint-ui/flint/main/registry"
+}
+```
+
+Point `registry` at a local folder while you are developing flint itself:
+
+```bash
+flint-ui add button --registry ./registry
+```
+
+## Next
+
+* [Theming](../theming/) — change the palette without touching a component.
+* [CLI](../cli/) — every flag.
+* [Button](../components/button/) — start with the one you will use most.
