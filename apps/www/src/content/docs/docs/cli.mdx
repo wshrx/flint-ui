@@ -1,0 +1,69 @@
+---
+title: CLI
+description: init, add, list — and what they write.
+---
+
+`flint-ui` copies files. It does not install a runtime, run a build step, or modify your source
+beyond the files you ask for.
+
+## Commands
+
+| Command | What it does |
+| --- | --- |
+| `flint-ui init` | writes `flint.json` and copies the shared library |
+| `flint-ui add <name...>` | copies components and their dependencies |
+| `flint-ui list` | prints the registry, components first |
+| `flint-ui --version` | prints the release the binary was built from |
+| `flint-ui help` | usage |
+
+## Flags
+
+| Flag | Applies to | Meaning |
+| --- | --- | --- |
+| `--root <dir>` | `init`, `add` | where files are written; default `src` |
+| `--registry <path\|url>` | all | local folder or base URL of a registry |
+| `--overwrite` | `init`, `add` | replace files that already exist |
+
+`FLINT_REGISTRY` is read when `--registry` is absent. `flint.json` is the last fallback before
+the public registry.
+
+```bash
+flint-ui add button dialog --root app
+flint-ui add tabs --registry ./registry --overwrite
+```
+
+## What add writes
+
+`add dialog` writes four files, because the dialog depends on the theme, the icon set and the
+text primitive:
+
+```text
+components/ui/dialog.tsx
+lib/flint/theme.ts              (already present → skipped)
+lib/flint/theme-provider.tsx    (already present → skipped)
+lib/flint/icon.tsx              (already present → skipped)
+```
+
+Dependencies come from `registryDependencies` in `registry.json`. There is no package manager
+involved and nothing is resolved at runtime.
+
+## Output
+
+```text
+  add  components/ui/dialog.tsx
+  skip lib/flint/theme.ts
+2 file(s) added, 6 skipped
+```
+
+The command exits non-zero on an unknown component, a missing file, or a failed download.
+
+## Adding your own registry
+
+A registry is a folder with `registry.json` and the files it names. Point the CLI at it locally
+while you build components for your team:
+
+```bash
+flint-ui add pricing-table --registry ../our-registry
+```
+
+See [Registry](../registry/) for the file format.

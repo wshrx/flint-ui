@@ -1,0 +1,467 @@
+{
+  "$schema": "https://wshrx.github.io/flint-ui/schema/registry.json",
+  "name": "flint",
+  "homepage": "https://github.com/wshrx/flint-ui",
+  "items": [
+    {
+      "name": "theme",
+      "type": "registry:lib",
+      "description": "Colour, type, radius and shadow tokens for light and dark.",
+      "files": [
+        {
+          "path": "lib/flint/theme.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "description": "mergeStyle, the object equivalent of cn().",
+      "files": [
+        {
+          "path": "lib/flint/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "theme-provider",
+      "type": "registry:lib",
+      "description": "ThemeProvider and useTheme.",
+      "registryDependencies": [
+        "theme"
+      ],
+      "files": [
+        {
+          "path": "lib/flint/theme-provider.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "text",
+      "type": "registry:lib",
+      "description": "Text with a guaranteed colour. Every string in flint goes through it.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider"
+      ],
+      "files": [
+        {
+          "path": "lib/flint/text.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "icons",
+      "type": "registry:lib",
+      "description": "The SVG strings flint components need.",
+      "files": [
+        {
+          "path": "lib/flint/icons/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "icon",
+      "type": "registry:lib",
+      "description": "Icon component over <svg source>.",
+      "registryDependencies": [
+        "theme",
+        "theme-provider",
+        "icons"
+      ],
+      "files": [
+        {
+          "path": "lib/flint/icon.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "use-controllable",
+      "type": "registry:lib",
+      "description": "Controlled/uncontrolled state helper for Checkbox, Switch and Tabs.",
+      "files": [
+        {
+          "path": "lib/flint/use-controllable.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "fonts",
+      "type": "registry:file",
+      "description": "Medeo Sans and Medeo Mono (OFL 1.1) plus the registerFont helper.",
+      "files": [
+        {
+          "path": "lib/flint/fonts.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "lib/fonts/MedeoSans-Regular.ttf",
+          "type": "registry:file"
+        },
+        {
+          "path": "lib/fonts/MedeoSans-Medium.ttf",
+          "type": "registry:file"
+        },
+        {
+          "path": "lib/fonts/MedeoSans-SemiBold.ttf",
+          "type": "registry:file"
+        },
+        {
+          "path": "lib/fonts/MedeoSans-Bold.ttf",
+          "type": "registry:file"
+        },
+        {
+          "path": "lib/fonts/MedeoMono-Regular.ttf",
+          "type": "registry:file"
+        },
+        {
+          "path": "lib/fonts/MedeoMono-Medium.ttf",
+          "type": "registry:file"
+        },
+        {
+          "path": "lib/fonts/OFL.txt",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "lib",
+      "type": "registry:lib",
+      "description": "Barrel for everything shared: @/lib/flint.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text",
+        "icons",
+        "icon",
+        "use-controllable",
+        "fonts"
+      ],
+      "files": [
+        {
+          "path": "lib/flint/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "description": "Six variants, four sizes, keyboard handling from the headless primitive.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "description": "Field surface around the native input, with focus and invalid states.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider"
+      ],
+      "files": [
+        {
+          "path": "components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "description": "The same surface as Input, growing between minRows and maxRows.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider"
+      ],
+      "files": [
+        {
+          "path": "components/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "description": "Label with an optional required mark.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text"
+      ],
+      "files": [
+        {
+          "path": "components/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "description": "Controlled or uncontrolled checkbox with keyboard support.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "icon",
+        "use-controllable"
+      ],
+      "files": [
+        {
+          "path": "components/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "description": "34x20 switch, no animation.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "use-controllable"
+      ],
+      "files": [
+        {
+          "path": "components/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "description": "Styled trigger, menu and items over @gpuix/react's Select.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "icon",
+        "text"
+      ],
+      "files": [
+        {
+          "path": "components/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "description": "Portal, backdrop and surface with a close control.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "icon",
+        "text"
+      ],
+      "files": [
+        {
+          "path": "components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "description": "Segmented or line tabs with a controlled value.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text",
+        "use-controllable"
+      ],
+      "files": [
+        {
+          "path": "components/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "description": "Card, header, title, description, content, footer.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text"
+      ],
+      "files": [
+        {
+          "path": "components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "description": "Five variants, optional status dot.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text"
+      ],
+      "files": [
+        {
+          "path": "components/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "description": "Inverted one-line surface over @gpuix/react's Tooltip.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text"
+      ],
+      "files": [
+        {
+          "path": "components/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "description": "A hairline, horizontal or vertical, with an optional label.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text"
+      ],
+      "files": [
+        {
+          "path": "components/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "description": "A quiet placeholder block sized like the content it replaces.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider"
+      ],
+      "files": [
+        {
+          "path": "components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "description": "Determinate bar with an optional label and percentage.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text"
+      ],
+      "files": [
+        {
+          "path": "components/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "description": "Inline message in four tones, with an icon and one hairline.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text",
+        "icon"
+      ],
+      "files": [
+        {
+          "path": "components/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "description": "Image or initials in a circle, 32 px by default.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text"
+      ],
+      "files": [
+        {
+          "path": "components/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "description": "One panel open at a time; closed panels are not rendered.",
+      "registryDependencies": [
+        "theme",
+        "utils",
+        "theme-provider",
+        "text",
+        "icon",
+        "use-controllable"
+      ],
+      "files": [
+        {
+          "path": "components/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

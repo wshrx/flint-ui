@@ -1,0 +1,167 @@
+---
+title: Установка
+description: Добавить flint в существующее приложение на GPUIX за пять шагов.
+---
+
+flint — это не пакет, который ставят и импортируют. Это набор файлов, которые попадают в ваш
+репозиторий, плюс токены, которые они читают. `flint-ui` — только курьер.
+
+## Требования
+
+- Bun 1.4.4 или новее для приложения. Сам CLI — статический бинарник, рантайм ему не нужен.
+- Приложение на GPUIX с `@gpuix/react` 0.11.0. Пините `@gpuix/react` и `@gpuix/native` на
+  **одну и ту же точную версию** — GPUIX до 1.0, адаптер и нативный аддон двигаются вместе.
+- TypeScript 5.5 или новее. flint проверяется TypeScript 7.0.2.
+
+## 1. Установите CLI
+
+```bash
+curl -fsSL https://wshrx.github.io/flint-ui/install.sh | sh
+```
+
+```powershell
+irm https://wshrx.github.io/flint-ui/install.ps1 | iex
+```
+
+Один самодостаточный бинарник для Linux, macOS и Windows: ни npm, ни Node, ничего не нужно
+держать в `package.json`. В Unix он кладётся в `~/.local/bin`, в Windows — в
+`%LOCALAPPDATA%\flint`; `FLINT_VERSION=0.1.0` фиксирует релиз, `FLINT_BIN_DIR` меняет каталог.
+
+Bun уже стоит? В релизе есть `flint-ui.mjs` — тот же CLI одним файлом на 5 КБ:
+
+```bash
+curl -fsSL https://github.com/wshrx/flint-ui/releases/latest/download/flint-ui.mjs -o flint-ui.mjs
+bun flint-ui.mjs init
+```
+
+Работаете над самим flint? Соберите из чекаута:
+
+```bash
+bun run build
+bun packages/cli/dist/index.js --version
+```
+
+## 2. Инициализация
+
+```bash
+flint-ui init
+```
+
+Команда создаёт `flint.json` и копирует общие файлы:
+
+```text
+src/lib/flint/theme.ts            токены светлой и тёмной темы
+src/lib/flint/utils.ts            mergeStyle, объектный аналог cn()
+src/lib/flint/theme-provider.tsx  ThemeProvider, useTheme
+src/lib/flint/text.tsx            Text с гарантированным цветом
+src/lib/flint/icon.tsx            Icon поверх <svg source>
+src/lib/flint/icons/index.ts      SVG-строки для компонентов
+src/lib/flint/use-controllable.ts controlled/uncontrolled состояние
+src/lib/flint/fonts.ts            хелпер registerFont
+src/lib/fonts/*.ttf               Medeo Sans и Medeo Mono
+```
+
+Если код не в `src`, укажите корень:
+
+```bash
+flint-ui init --root app
+```
+
+## 3. Укажите TypeScript на GPUIX и на корень исходников
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@gpuix/react",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+`jsxImportSource` обязателен. Без него TypeScript использует DOM-типы, и каждый проп GPUIX —
+включая `hover` и `<text>` — не проходит проверку.
+
+## 4. Подключите провайдер и шрифты
+
+```tsx title="app.tsx"
+import { useEffect, useState } from "react"
+import { render, useGpuixRequired } from "@gpuix/react"
+import { ThemeProvider, flintDark, flintLight, registerFlintFonts } from "@/lib/flint"
+
+function Boot() {
+  const renderer = useGpuixRequired()
+  useEffect(() => {
+    registerFlintFonts(renderer, { dir: "./fonts" })
+  }, [renderer])
+  return null
+}
+
+function App() {
+  const [dark, setDark] = useState(true)
+  return (
+    <ThemeProvider theme={dark ? flintDark : flintLight}>
+      <Boot />
+      {/* ваше дерево */}
+    </ThemeProvider>
+  )
+}
+
+render(<App />, { title: "Моё приложение", width: 960, height: 640 })
+```
+
+`registerFont` работает только после создания окна — поэтому он в эффекте, а не на верхнем
+уровне модуля. Вызов до `render()` бросает `GPUI application is not initialized`.
+
+В браузерной сборке `registerFont` нет. Там те же файлы подключаются через `FontFace`.
+
+## 5. Добавьте компоненты
+
+```bash
+flint-ui add button
+flint-ui add dialog select tabs
+flint-ui list
+```
+
+Каждое имя тянет свои зависимости: `add dialog` добавит `theme`, `utils`, `icon` и `text`,
+если их ещё нет. Существующие файлы не перезаписываются без `--overwrite`.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+export function Save() {
+  return (
+    <div style={{ display: "flex", gap: 8 }}>
+      <Input placeholder="Имя" style={{ width: 220 }} />
+      <Button>Сохранить</Button>
+    </div>
+  )
+}
+```
+
+## Куда попадают файлы
+
+`flint.json` хранит корень. Остальной путь задаёт реестр, поэтому структура стабильна между
+проектами:
+
+```json title="flint.json"
+{
+  "root": "src",
+  "registry": "https://raw.githubusercontent.com/flint-ui/flint/main/registry"
+}
+```
+
+Во время разработки самого flint укажите локальную папку:
+
+```bash
+flint-ui add button --registry ./registry
+```
+
+## Дальше
+
+- [Темы](../theming/) — палитра без правки компонентов.
+- [CLI](../cli/) — все флаги.
+- [Button](../components/button/) — начните с самого нужного.

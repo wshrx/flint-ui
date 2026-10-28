@@ -1,0 +1,44 @@
+---
+title: Progress
+description: A determinate bar for work the user is waiting on.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/progress.tsx?raw"
+
+## Usage
+
+```tsx
+import { Progress } from "@/components/ui/progress"
+
+<Progress value={64} label="Uploading assets" showValue />
+<Progress value={3} max={8} label="Steps" />
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>number</code></td><td>—</td></tr>
+    <tr><td><code>max</code></td><td><code>number</code></td><td><code>100</code></td></tr>
+    <tr><td><code>label</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>showValue</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+The bar is 6 px tall; the label and the percentage share one line above it. Numerals inside a 6 px
+track are unreadable, and a bar with text in it stops looking like a bar.
+
+Values are clamped to `0…max`, and `max` falls back to 100 when it is zero or negative. The
+percentage is exposed with `aria-valuetext`; the label is plain text, so pair the component with a
+visible heading when the number alone would not say what is progressing.
+
+This is a determinate bar. For work of unknown length there is no indeterminate mode on purpose —
+use a spinner in the button that started the work, or the `Skeleton` of the list being replaced.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/progress.tsx" />

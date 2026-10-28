@@ -1,0 +1,166 @@
+---
+import { Code } from "@astrojs/starlight/components"
+import HeroArt from "./HeroArt.astro"
+import buttonSource from "../../../../registry/components/ui/button.tsx?raw"
+
+
+const components = [
+  ["Button", "6 вариантов · 4 размера"],
+  ["Input", "фокус · ошибка · иконки"],
+  ["Textarea", "3 → 8 строк"],
+  ["Label", "обязательное поле"],
+  ["Checkbox", "контролируемый · клавиатура"],
+  ["Switch", "34 × 20"],
+  ["Select", "клавиатура · значения"],
+  ["Dialog", "портал · ловушка фокуса"],
+  ["Tabs", "сегменты · линия"],
+  ["Card", "3 поверхности · 6 частей"],
+  ["Badge", "5 тонов · точка статуса"],
+  ["Tooltip", "инверсия · одна строка"],
+  ["Separator", "линия · подпись"],
+  ["Skeleton", "блок · тихий"],
+  ["Progress", "полоса · процент"],
+  ["Alert", "4 тона · в потоке"],
+  ["Avatar", "фото · инициалы"],
+  ["Accordion", "одна панель · клавиатура"],
+] as const
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+---
+
+<div class="flint-landing">
+  <section class="flint-hero">
+    <HeroArt />
+    <div class="flint-sky" aria-hidden="true"></div>
+    <div class="flint-hero-copy">
+    <div class="flint-mark" aria-hidden="true">
+      <svg class="flint-flame" viewBox="0 0 48 48" fill="none">
+        <path d="M24 4c7 9 12 14 12 21a12 12 0 0 1-24 0c0-4 2-7 5-10 0 3 1 5 3 6 1-6 2-11 4-17Z" fill="#38BDF8" opacity="0.9" />
+        <path d="M24 21c3 4 5 6 5 9a5 5 0 0 1-10 0c0-3 2-5 5-9Z" fill="#E0F2FE" opacity="0.85" />
+      </svg>
+      <svg class="flint-sun" viewBox="0 0 48 48" fill="none">
+        <g stroke="#0369A1" stroke-width="1.8" stroke-linecap="round" opacity="0.85">
+          <path d="M24 3v6M24 39v6M3 24h6M39 24h6M9 9l4 4M35 35l4 4M39 9l-4 4M13 35l-4 4" />
+        </g>
+        <circle class="flint-sun-ring" cx="24" cy="24" r="10" stroke="#0369A1" stroke-width="1.2" opacity="0.5" />
+        <circle cx="24" cy="24" r="7" fill="#0369A1" />
+      </svg>
+    </div>
+      <h1>Компоненты<br />для GPUIX.</h1>
+      <p class="flint-lede">
+        Восемнадцать компонентов в виде исходников. Скопируйте файл в приложение, поменяйте значения,
+        оставьте себе. Без CSS, без рантайма и без пакета, который нужно обновлять.
+      </p>
+      <div class="flint-actions">
+        <a class="flint-button flint-button-primary" href={`${base}/ru/docs/installation`}>Установить</a>
+        <a class="flint-button flint-button-secondary" href={`${base}/ru/docs/components`}>Компоненты</a>
+      </div>
+      <div class="flint-command">
+        <span class="flint-prompt">$</span>
+        <span>flint-ui add button dialog select</span>
+        <button type="button" class="flint-copy" data-copy="flint-ui add button dialog select">copy</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="flint-facts" aria-label="What is in the box">
+    <div>
+      <span>компоненты</span>
+      <p>18, по файлу на каждый</p>
+    </div>
+    <div>
+      <span>рантайм</span>
+      <p>нет — исходник ваш</p>
+    </div>
+    <div>
+      <span>рендерер</span>
+      <p>GPUI · нативный</p>
+    </div>
+  </section>
+
+  <section class="flint-section">
+    <h2>Как это работает</h2>
+    <dl class="flint-points">
+      <dt>flint-ui init</dt>
+      <dd>
+        Копирует тему, <code>mergeStyle</code>, <code>Text</code>, иконки и шрифты в
+        <code>src/lib/flint</code>. Один раз на проект.
+      </dd>
+      <dt>flint-ui add button</dt>
+      <dd>
+        Копирует <code>components/ui/button.tsx</code> и всё, что он импортирует. Существующие
+        файлы не перезаписываются без <code>--overwrite</code>.
+      </dd>
+      <dt>правьте файл</dt>
+      <dd>
+        Стили — объекты, варианты — запись, состояния вложены. Нет шага сборки и провайдера, поэтому
+        изменение видно на следующем кадре.
+      </dd>
+    </dl>
+  </section>
+
+  <section class="flint-section">
+    <h2>Файл, который вы получаете</h2>
+    <p class="flint-section-lede">
+      Один компонент — один файл. Это целиком тот файл, который пишет <code>flint-ui add button</code>,
+      а не выдержка.
+    </p>
+    <div class="flint-split">
+      <div class="flint-split-code">
+        <Code code={buttonSource} lang="tsx" title="components/ui/button.tsx" />
+      </div>
+      <div class="flint-split-copy">
+        <p>
+          Клавиатурное поведение приходит из headless-примитива в{" "}
+          <code>@gpuix/react</code>. Остальное — поверхность: размеры, варианты, состояния.
+        </p>
+        <p>
+          Измените <code>SIZES</code> — изменится каждый размер. Измените <code>variantStyle</code> —
+          за ним последует весь кит. Ничего не перегенерируется, CLI перезапускать не нужно.
+        </p>
+        <a class="flint-inline-link" href={`${base}/ru/docs/components/button`}>Страница Button →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="flint-section">
+    <h2>Компоненты</h2>
+    <div class="flint-grid">
+      {components.map(([name, meta]) => (
+        <a class="flint-card" href={`${base}/ru/docs/components/${name.toLowerCase()}`}>
+          <span class="flint-card-name">{name}</span>
+          <span class="flint-card-meta">{meta}</span>
+          <span class="flint-card-arrow" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <footer class="flint-footer">
+    <nav class="flint-footer-nav" aria-label="Документация">
+      <a href={`${base}/docs/installation`}>Документация</a>
+      <a href={`${base}/docs/components`}>Компоненты</a>
+      <a href={`${base}/docs/cli`}>CLI</a>
+      <a href={`${base}/docs/registry`}>Реестр</a>
+      <a href="https://github.com/wshrx/flint-ui">GitHub</a>
+    </nav>
+    <p>
+      API повторяет <a href="https://ui.shadcn.com">shadcn/ui</a>, поведение даёт{" "}
+      <a href="https://gpuix.dev">@gpuix/react</a>. Шрифт десктопа —{" "}
+      <a href="https://github.com/DNFDEVS/medeo-font">Medeo</a> (OFL 1.1).
+    </p>
+  </footer>
+
+  <script>
+    document.addEventListener("click", async (event) => {
+      const button = event.target instanceof Element ? event.target.closest("[data-copy]") : null
+      if (!button) return
+      const value = button.getAttribute("data-copy")
+      if (!value) return
+      await navigator.clipboard.writeText(value)
+      const previous = button.textContent
+      button.textContent = "copied"
+      setTimeout(() => (button.textContent = previous), 1200)
+    })
+  </script>
+</div>
