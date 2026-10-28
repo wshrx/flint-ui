@@ -1,0 +1,92 @@
+---
+title: CLI
+description: init, add, list — and what they write.
+---
+
+`flint-ui` copies files. It does not install a runtime, run a build step, or modify your source
+beyond the files you ask for.
+
+## Commands
+
+| Command | What it does |
+| --- | --- |
+| `flint-ui init` | writes `flint.json` and copies the shared library |
+| `flint-ui add <name...>` | copies components and their dependencies |
+| `flint-ui list` | prints the registry, components first |
+| `flint-ui diff <name...>` | compares the files in your project with the registry |
+| `flint-ui --version` | prints the release the binary was built from |
+| `flint-ui help` | usage |
+
+## Flags
+
+| Flag | Applies to | Meaning |
+| --- | --- | --- |
+| `--root <dir>` | `init`, `add` | where files are written; default `src` |
+| `--registry <path\|url>` | all | local folder or base URL of a registry |
+| `--overwrite` | `init`, `add` | replace files that already exist |
+| `--dry-run` | `init`, `add` | print what would be written and write nothing |
+
+`FLINT_REGISTRY` is read when `--registry` is absent. `flint.json` is the last fallback before
+the public registry.
+
+```bash
+flint-ui add button dialog --root app
+flint-ui add tabs --registry ./registry --overwrite
+
+# see the plan first
+flint-ui add dialog --dry-run
+
+# what changed upstream since you copied?
+flint-ui diff dialog
+```
+
+## What add writes
+
+`add dialog` writes four files, because the dialog depends on the theme, the icon set and the
+text primitive:
+
+```text
+components/ui/dialog.tsx
+lib/flint/theme.ts              (already present → skipped)
+lib/flint/theme-provider.tsx    (already present → skipped)
+lib/flint/icon.tsx              (already present → skipped)
+```
+
+Dependencies come from `registryDependencies` in `registry.json`. There is no package manager
+involved and nothing is resolved at runtime.
+
+## Output
+
+```text
+  add  components/ui/dialog.tsx
+  skip lib/flint/theme.ts
+2 file(s) added, 6 skipped
+```
+
+## Validation
+
+Before copying anything, the CLI validates `registry.json`: it must parse, `items` must be a
+non-empty array, every item needs a name, a type and at least one file path, names must be unique,
+and every `registryDependencies` entry must exist. A bad registry fails with one line and a
+non-zero exit, before half a component lands in your project.
+
+`diff` exits non-zero when anything changed or is missing, so it works as a CI check:
+
+```text
+  changed  components/ui/dialog.tsx (128 → 131 lines)
+
+1 changed, 0 missing, 4 unchanged
+```
+
+The command exits non-zero on an unknown component, a missing file, or a failed download.
+
+## Adding your own registry
+
+A registry is a folder with `registry.json` and the files it names. Point the CLI at it locally
+while you build components for your team:
+
+```bash
+flint-ui add pricing-table --registry ../our-registry
+```
+
+See [Registry](../registry/) for the file format.

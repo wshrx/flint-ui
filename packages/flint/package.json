@@ -1,0 +1,47 @@
+{
+  "name": "@flint-ui/react",
+  "version": "0.1.1",
+  "description": "UI for GPUIX. Components you copy into your app, styled with tokens instead of CSS.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./theme": {
+      "types": "./dist/lib/flint/theme.d.ts",
+      "default": "./dist/lib/flint/theme.js"
+    },
+    "./text": {
+      "types": "./dist/lib/flint/text.d.ts",
+      "default": "./dist/lib/flint/text.js"
+    },
+    "./fonts": {
+      "types": "./dist/lib/flint/fonts.d.ts",
+      "default": "./dist/lib/flint/fonts.js"
+    }
+  },
+  "scripts": {
+    "build": "bun run ../../scripts/build-package.ts && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "@gpuix/react": "^0.11.0",
+    "react": "^19.2.0"
+  },
+  "devDependencies": {
+    "@gpuix/react": "0.11.0",
+    "react": "19.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wshrx/flint-ui"
+  }
+}
