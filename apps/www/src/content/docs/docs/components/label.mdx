@@ -1,0 +1,57 @@
+---
+title: Label
+description: A field name with a required mark, and nothing else.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/label.tsx?raw"
+
+```bash
+flint-ui add label
+```
+
+## Usage
+
+```tsx
+import { useState } from "react"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Text } from "@/lib/flint"
+
+const [name, setName] = useState("")
+
+<Label required>Workspace name</Label>
+<Input
+  value={name}
+  onChange={(event) => setName(event.value ?? "")}
+  aria-label="Workspace name"
+/>
+<Text size="xs" tone="muted">Shown to everyone you invite.</Text>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>style</code></td><td><code>StyleDesc</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+GPUI has no `for=`, so the visible label never names the field programmatically. Always give the
+control its own accessible name with `aria-label`. The required mark is drawn, not announced; say
+"required" in the field's name or hint.
+
+## Keyboard and accessibility
+
+`Label` is a text node with no role and no tab stop, so it cannot name a control. The control must
+carry `aria-label`; the visible label is positional only, so keep it directly above that control.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/label.tsx" />

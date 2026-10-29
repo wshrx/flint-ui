@@ -1,0 +1,45 @@
+---
+title: Badge
+description: Status, counts and labels, in five tones.
+slug: v0.1.2/docs/components/badge
+---
+
+
+```bash
+flint-ui add badge
+```
+
+## Usage
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+
+<Badge>Owner</Badge>
+<Badge variant="secondary">Editor</Badge>
+<Badge variant="outline">MIT</Badge>
+<Badge variant="destructive">Failed</Badge>
+<Badge variant="success" dot>Connected</Badge>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>variant</code></td><td><code>"default" | "secondary" | "outline" | "destructive" | "success"</code></td><td><code>"default"</code></td></tr>
+    <tr><td><code>dot</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+The badge is 20px tall with 11px text. Numerals inside a badge use the same font as the label; do not
+switch to mono for a count, or a row of badges will jitter. The default tone fills with `primary`;
+`success` uses the success token and is reserved for live state, not decoration.
+
+## When not to use it
+
+If the message needs a sentence and an action, use `Alert`; a badge holds a word or a number.
+

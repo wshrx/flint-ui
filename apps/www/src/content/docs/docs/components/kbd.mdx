@@ -1,0 +1,54 @@
+---
+title: Kbd
+description: A keyboard hint on a hairline pill.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/kbd.tsx?raw"
+
+```bash
+flint-ui add kbd
+```
+
+## Usage
+
+```tsx
+import { Kbd } from "@/components/ui/kbd"
+
+<Kbd>K</Kbd>
+<Kbd>⌘ K</Kbd>
+<Kbd>Ctrl Shift P</Kbd>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>children</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## When not to use it
+
+`Kbd` is a label, not a control: it does not listen for the key. For an unfamiliar control, put the
+hint in a `Tooltip` next to the icon, where the user is looking, and keep `Kbd` for the sentence
+that explains the shortcut.
+
+## Keyboard and accessibility
+
+`Kbd` is text, not a control. A screen reader reads the characters; keep the chord short and put
+the action in the surrounding label. If the hint is redundant for assistive technology, wrap it in
+an element with `aria-hidden`.
+## Notes
+
+One chord per element. If a shortcut is a sequence, render two `Kbd`s with a separator between
+them; two chords inside one pill read as a single key.
+
+The text is already formatted by the caller (`⌘`, `Ctrl`, `Shift`) because the right labels depend
+on the platform the app runs on, and flint does not guess.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/kbd.tsx" />

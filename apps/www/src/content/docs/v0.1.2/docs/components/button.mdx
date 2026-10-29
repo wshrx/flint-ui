@@ -1,0 +1,75 @@
+---
+title: Button
+description: Six variants, four sizes, and the keyboard behaviour of a real button.
+slug: v0.1.2/docs/components/button
+---
+
+
+```bash
+flint-ui add button
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Icon } from "@/lib/flint"
+
+<Button>Save changes</Button>
+<Button variant="secondary">Cancel</Button>
+<Button variant="outline" size="sm">Export</Button>
+<Button variant="destructive">Delete</Button>
+<Button variant="ghost" size="icon" aria-label="Settings">
+  <Icon name="settings" />
+</Button>
+```
+
+`asChild` passes the props to the single child instead of wrapping it, which is how a dialog
+trigger becomes a button.
+
+## Variants
+
+| `variant` | Surface | Use for |
+| --- | --- | --- |
+| `primary` | primary fill | the one action on the screen |
+| `secondary` | raised neutral | secondary actions next to a primary |
+| `outline` | transparent, hairline | neutral actions in a toolbar |
+| `ghost` | transparent | icon buttons, list rows |
+| `destructive` | red fill | irreversible actions |
+| `link` | text only | inline navigation |
+
+## Sizes
+
+`sm` 28px · `md` 32px · `lg` 38px · `icon` 32×32. Heights are px numbers, not rem: GPUIX has no
+root font size to scale against.
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>variant</code></td><td><code>"primary" | "secondary" | "outline" | "ghost" | "destructive" | "link"</code></td><td><code>"primary"</code></td></tr>
+    <tr><td><code>size</code></td><td><code>"sm" | "md" | "lg" | "icon"</code></td><td><code>"md"</code></td></tr>
+    <tr><td><code>loading</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>asChild</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>onClick</code></td><td><code>(event: EventPayload) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>style</code></td><td><code>StateStyle&lt;ButtonState&gt;</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+- `loading` keeps the label and dims the surface. It does not draw a spinner: GPUIX motion has no
+  rotation, and a static spinner is worse than no spinner.
+- Disabled buttons are removed from the tab order. Pass `focusableWhenDisabled` through if the
+  button is disabled while saving and should still be reachable.
+
+## Keyboard and accessibility
+
+`Button` renders a focusable element with `role="button"`. Enter fires on key down and Space on key
+up, and both stop when a handler calls `preventDefault`. A disabled button gets `tabIndex={-1}` and
+leaves the tab order, and the code sets no `aria-disabled`, so keep the reason in nearby text. Focus
+is a 2px `ring` outline offset by 2px, so it takes no layout space.
+

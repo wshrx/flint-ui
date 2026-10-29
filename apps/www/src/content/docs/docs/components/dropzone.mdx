@@ -1,0 +1,64 @@
+---
+title: Dropzone
+description: A dashed area that reports absolute paths from an OS file drop.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/dropzone.tsx?raw"
+
+```bash
+flint-ui add dropzone
+```
+
+## Usage
+
+```tsx
+import { Dropzone } from "@/components/ui/dropzone"
+
+<Dropzone
+  accept={[".png", ".jpg"]}
+  hint="PNG or JPG, up to 10 files"
+  onFiles={(paths) => addImages(paths)}
+/>
+
+<Dropzone disabled hint="Finish the upload first">
+  Drop a replacement here
+</Dropzone>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>onFiles</code></td><td><code>(paths: string[]) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>accept</code></td><td><code>string[]</code></td><td><code>[]</code> (everything)</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>label</code></td><td><code>string</code></td><td><code>"Drop files here"</code></td></tr>
+    <tr><td><code>hint</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>replaces the label</td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Keyboard and accessibility
+
+A dropzone is pointer-only. GPUIX reports the drop, not a keyboard equivalent, so pair it with a
+button or an input that reaches the same action. The area has no role and no tab stop; the hint
+explains what it accepts, and the button carries the accessible name.
+## Notes
+
+The drop event carries absolute filesystem paths. flint reports them and stops: no upload, no copy,
+no reading. What happens next belongs to the app.
+
+`accept` compares extensions case-insensitively. Files that do not match are dropped from the list
+silently; if every file is rejected, `onFiles` is not called. That is deliberate: a drag that ends
+with nothing is a smaller surprise than a modal about file types.
+
+The active state follows the pointer, not the OS drag session. GPUIX reports the drop, not the
+drag-enter and drag-leave phases, so the border lights up while the pointer is over the area rather
+than only while a file is held.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/dropzone.tsx" />

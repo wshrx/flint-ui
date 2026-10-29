@@ -1,0 +1,35 @@
+---
+title: Label
+description: A field name with a required mark, and nothing else.
+slug: v0.1.1/docs/components/label
+---
+
+
+## Usage
+
+```tsx
+import { Label } from "@/components/ui/label"
+import { Text } from "@/lib/flint"
+
+<Label required>Workspace name</Label>
+<Input value={name} onChange={(event) => setName(event.value ?? "")} />
+<Text size="xs" tone="muted">Shown to everyone you invite.</Text>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>style</code></td><td><code>StyleDesc</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+GPUI has no `for=`, so a label is not programmatically tied to a field. Give the field an
+`aria-label` as well when the label is not the only thing naming it. The required mark is drawn,
+not announced; put "required" in the hint text if the form is long.
+

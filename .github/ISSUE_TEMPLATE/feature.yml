@@ -1,0 +1,30 @@
+name: Component or feature
+description: Propose a component, a CLI command or a docs change.
+labels: [enhancement]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      placeholder: Toast
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What a user cannot do today, without naming a solution.
+    validations:
+      required: true
+  - type: textarea
+    id: primitive
+    attributes:
+      label: GPUIX primitive
+      description: Which `@gpuix/react` export it would wrap, or why none fits.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: What exists today (Select, Dialog, Dropzone) and why it is not enough.

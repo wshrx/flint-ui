@@ -1,0 +1,69 @@
+---
+title: Tabs
+description: Two shapes of tabs, one controlled value.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/tabs.tsx?raw"
+
+```bash
+flint-ui add tabs
+```
+
+## Usage
+
+```tsx
+import { useState } from "react"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+
+const [tab, setTab] = useState("general")
+
+<Tabs value={tab} onValueChange={setTab}>
+  <TabsList>
+    <TabsTrigger value="general">General</TabsTrigger>
+    <TabsTrigger value="members">Members</TabsTrigger>
+  </TabsList>
+  <TabsContent value="general">{/* … */}</TabsContent>
+  <TabsContent value="members">{/* … */}</TabsContent>
+</Tabs>
+```
+
+`TabsList variant="line"` puts the strip on a hairline instead of a filled track, for settings pages
+where the tabs sit under a heading.
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>defaultValue</code></td><td><code>string</code></td><td><code>""</code></td></tr>
+    <tr><td><code>onValueChange</code></td><td><code>(value: string) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>variant</code> <span>on List</span></td><td><code>"segmented" | "line"</code></td><td><code>"segmented"</code></td></tr>
+    <tr><td><code>value</code> <span>on Trigger / Content</span></td><td><code>string</code></td><td>required</td></tr>
+    <tr><td><code>disabled</code> <span>on Trigger</span></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>children</code> <span>on List / Trigger / Content</span></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>style</code> <span>on List / Trigger / Content</span></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+Inactive panels are **unmounted**, not hidden. That is deliberate: a panel with an input should not
+keep state the user cannot see, and it keeps cost proportional to what is on screen. If you need a
+panel to stay mounted, render it yourself and toggle `visibility`.
+
+## Keyboard and accessibility
+
+`TabsList` has `role="tablist"`, each `TabsTrigger` has `role="tab"` with `aria-selected`, and the
+active panel has `role="tabpanel"`. Enter, Space and a press all select a tab, and focus stays on the
+trigger you activated. Every enabled trigger has `tabIndex={0}`, so Tab moves through the strip one
+tab at a time; there is no arrow-key navigation. Disabled triggers get `tabIndex={-1}`.
+
+## When not to use it
+
+If the choice sets a form value that you submit, use `Select`; tabs switch the view in place.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/tabs.tsx" />

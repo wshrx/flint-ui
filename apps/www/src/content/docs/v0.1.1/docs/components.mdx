@@ -1,0 +1,121 @@
+---
+title: Components
+description: Eighteen components. Everything is source you keep.
+slug: v0.1.1/docs/components
+---
+
+Eighteen components, seven shared primitives, no runtime to keep in sync. Each page shows the
+rendered component, the exact file `flint-ui add` writes, and every prop.
+
+Each page shows the usage, the props and the full file. There is no live preview: the components are native, and the docs ship the source.
+
+<dl class="flint-catalog">
+  <div>
+    <dt><a href="button">Button</a></dt>
+    <dd>Actions, Enter and Space, disabled and loading states. Six variants, four sizes.</dd>
+  </div>
+  <div>
+    <dt><a href="input">Input</a></dt>
+    <dd>Single-line text with focus and invalid states, leading and trailing adornments.</dd>
+  </div>
+  <div>
+    <dt><a href="textarea">Textarea</a></dt>
+    <dd>Multi-line text that grows from three rows to eight, then scrolls.</dd>
+  </div>
+  <div>
+    <dt><a href="label">Label</a></dt>
+    <dd>Field names with a required mark. Small, quiet, one job.</dd>
+  </div>
+  <div>
+    <dt><a href="checkbox">Checkbox</a></dt>
+    <dd>Booleans in a form, controlled or not, with the label inside the hit target.</dd>
+  </div>
+  <div>
+    <dt><a href="switch">Switch</a></dt>
+    <dd>Settings that apply immediately. 34 × 20, no animation.</dd>
+  </div>
+  <div>
+    <dt><a href="select">Select</a></dt>
+    <dd>One of N, keyboard first, with a menu that flips inside the window.</dd>
+  </div>
+  <div>
+    <dt><a href="dialog">Dialog</a></dt>
+    <dd>Portal, backdrop and surface with a focus trap and a close control.</dd>
+  </div>
+  <div>
+    <dt><a href="tabs">Tabs</a></dt>
+    <dd>Segmented or line, one controlled value, panels unmounted when inactive.</dd>
+  </div>
+  <div>
+    <dt><a href="card">Card</a></dt>
+    <dd>Six parts and three surfaces. Grouping that is not another card.</dd>
+  </div>
+  <div>
+    <dt><a href="badge">Badge</a></dt>
+    <dd>Status, counts and labels in five tones, with an optional status dot.</dd>
+  </div>
+  <div>
+    <dt><a href="tooltip">Tooltip</a></dt>
+    <dd>One line of context on an inverted surface. A hint, never a label.</dd>
+  </div>
+  <div>
+    <dt><a href="separator">Separator</a></dt>
+    <dd>A hairline between blocks, with an optional label.</dd>
+  </div>
+  <div>
+    <dt><a href="skeleton">Skeleton</a></dt>
+    <dd>A placeholder block sized like the content it replaces. No shimmer.</dd>
+  </div>
+  <div>
+    <dt><a href="progress">Progress</a></dt>
+    <dd>Determinate bar with an optional label and percentage.</dd>
+  </div>
+  <div>
+    <dt><a href="alert">Alert</a></dt>
+    <dd>Inline message in four tones. One icon, one hairline.</dd>
+  </div>
+  <div>
+    <dt><a href="avatar">Avatar</a></dt>
+    <dd>Photo or initials in a circle, 32 px by default.</dd>
+  </div>
+  <div>
+    <dt><a href="accordion">Accordion</a></dt>
+    <dd>One panel open at a time; closed panels are not rendered.</dd>
+  </div>
+</dl>
+
+## Shared primitives
+
+`flint-ui init` copies these once. Components depend on them; you rarely import them directly,
+except `Text` and `Icon`.
+
+<dl class="flint-catalog">
+  <div>
+    <dt><code>lib/flint/theme.ts</code></dt>
+    <dd><code>flintDark</code>, <code>flintLight</code>, <code>inputTheme</code> — the tokens.</dd>
+  </div>
+  <div>
+    <dt><code>lib/flint/theme-provider.tsx</code></dt>
+    <dd><code>ThemeProvider</code> and <code>useTheme</code>: one palette per window.</dd>
+  </div>
+  <div>
+    <dt><code>lib/flint/utils.ts</code></dt>
+    <dd><code>mergeStyle</code> and <code>mergeStyles</code> — the object <code>cn()</code>.</dd>
+  </div>
+  <div>
+    <dt><code>lib/flint/text.tsx</code></dt>
+    <dd><code>Text</code>: text that cannot be black by accident.</dd>
+  </div>
+  <div>
+    <dt><code>lib/flint/icon.tsx</code></dt>
+    <dd><code>Icon</code>: monochrome SVG at a given size.</dd>
+  </div>
+  <div>
+    <dt><code>lib/flint/use-controllable.ts</code></dt>
+    <dd><code>useControllableState</code>: controlled and uncontrolled parity.</dd>
+  </div>
+  <div>
+    <dt><code>lib/flint/fonts.ts</code></dt>
+    <dd><code>registerFlintFonts</code>: Medeo into the process.</dd>
+  </div>
+</dl>

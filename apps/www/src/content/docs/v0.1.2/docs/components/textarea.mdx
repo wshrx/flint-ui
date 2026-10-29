@@ -1,0 +1,53 @@
+---
+title: Textarea
+description: The Input surface, growing between three and eight rows.
+slug: v0.1.2/docs/components/textarea
+---
+
+
+```bash
+flint-ui add textarea
+```
+
+## Usage
+
+```tsx
+import { useState } from "react"
+import { Textarea } from "@/components/ui/textarea"
+
+const [about, setAbout] = useState("")
+
+<Textarea
+  value={about}
+  onChange={(event) => setAbout(event.value ?? "")}
+  minRows={3}
+  maxRows={8}
+  aria-label="About"
+/>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>minRows</code></td><td><code>number</code></td><td><code>3</code></td></tr>
+    <tr><td><code>maxRows</code></td><td><code>number</code></td><td><code>8</code></td></tr>
+    <tr><td><code>invalid</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>style</code></td><td><code>StyleDesc</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Keyboard and accessibility
+
+Focus is tracked on the native editor by `onFocus` and `onBlur`, and the wrapper paints the `ring`
+border and a 2px outline. Enter inserts a newline; set `onSubmit` if you also need a submit event
+on Enter. The field grows from `minRows` to `maxRows` and scrolls inside the surface after that.
+Give it an `aria-label`: there is no `for=`, so a visible `Label` does not name it programmatically.
+
+## Notes
+
+Rows are counted by GPUI, not by a `rows` attribute. Past `maxRows` the editor scrolls inside the
+surface; the wrapper does not grow, so a long paste cannot push the footer off screen.
+

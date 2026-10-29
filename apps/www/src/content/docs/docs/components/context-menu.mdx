@@ -1,0 +1,86 @@
+---
+title: ContextMenu
+description: A right-click menu painted above the row that opened it.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/context-menu.tsx?raw"
+
+```bash
+flint-ui add context-menu
+```
+
+## Usage
+
+Mount the provider once, next to the theme:
+
+```tsx
+import { ContextMenuProvider } from "@/components/ui/context-menu"
+
+<ThemeProvider theme={flintDark}>
+  <ContextMenuProvider>{/* your app */}</ContextMenuProvider>
+</ThemeProvider>
+```
+
+Then wrap the area that accepts a right click:
+
+```tsx
+import { ContextMenu } from "@/components/ui/context-menu"
+
+<ContextMenu
+  items={[
+    { label: "Rename", onSelect: rename },
+    { label: "Duplicate", onSelect: duplicate },
+    { label: "Delete", onSelect: remove, danger: true },
+  ]}
+>
+  <Card>{/* row content */}</Card>
+</ContextMenu>
+```
+
+## Props
+
+`ContextMenu`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>items</code></td><td><code>ContextMenuItem[]</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+`ContextMenuItem`:
+
+<table class="flint-props">
+  <thead><tr><th>Field</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>label</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>onSelect</code></td><td><code>() =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>danger</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+  </tbody>
+</table>
+
+## Keyboard and accessibility
+
+The trigger listens to `onAuxClick` and opens only when `isRightClick` is set. The menu is a
+window-level layer: clicking anywhere outside closes it, and Escape closes the top layer through
+`DismissableLayer`. Items use `buttonProps`, so Enter fires on key down, Space on key up, and
+disabled items stay out of the tab order.
+
+The menu is positioned at the cursor and clamped to the window edges. There are no submenus and no
+separators: a right-click menu that needs a hierarchy is a dialog.
+
+## Notes
+
+The provider is not optional. The layer has to live above the scroll container, otherwise a menu
+opened near the bottom of a list is clipped by it. Mount `ContextMenuProvider` once at the root.
+
+Coordinates come from the event, in window pixels, so the menu opens where the pointer is regardless
+of scroll offset. The panel is 220 px wide and 30 px per item.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/context-menu.tsx" />

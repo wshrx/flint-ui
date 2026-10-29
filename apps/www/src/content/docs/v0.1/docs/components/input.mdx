@@ -1,0 +1,61 @@
+---
+title: Input
+description: A field surface around GPUIX's native input, with focus and invalid states.
+slug: v0.1/docs/components/input
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/v0.1/input.tsx?raw"
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Icon } from "@/lib/flint"
+
+const [name, setName] = useState("")
+
+<Input value={name} onChange={(event) => setName(event.value ?? "")} />
+
+<Input
+  placeholder="Search"
+  leading={<Icon name="search" size={14} />}
+  invalid={name.length > 40}
+/>
+```
+
+## Why the border is on a wrapper
+
+GPUI draws its own text box inside the native `<input>`. Padding, border and focus ring belong to
+the wrapper so they line up with `Select`, `Textarea` and every other control; the editor inside is
+transparent and fills the remaining space. That also makes `leading` and `trailing` possible
+without absolute positioning.
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>placeholder</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>onChange</code></td><td><code>(event: EventPayload) => void</code></td><td>—</td></tr>
+    <tr><td><code>invalid</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>leading</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>trailing</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>readOnly</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>autoFocus</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>style</code></td><td><code>StyleDesc</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+* The value comes from `event.value`, not `event.target.value`. There is no DOM.
+* `invalid` changes the border and the focus ring. It does not print an error — pair it with a
+  muted `<Text tone="destructive">` under the field, where the message can say what to fix.
+* `type="password"` is not supported: GPUIX's editor has no masking yet.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/input.tsx" />

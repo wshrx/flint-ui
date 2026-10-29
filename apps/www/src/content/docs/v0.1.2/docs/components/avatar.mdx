@@ -1,0 +1,61 @@
+---
+title: Avatar
+description: A photo or initials in a circle.
+slug: v0.1.2/docs/components/avatar
+---
+
+
+```bash
+flint-ui add avatar
+```
+
+## Usage
+
+```tsx
+import { Avatar } from "@/components/ui/avatar"
+
+<Avatar src="./photos/ada.png" name="Ada Lovelace" />
+<Avatar name="Grace Hopper" />
+<Avatar name="Grace Hopper" size={24} />
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>src</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>name</code></td><td><code>string</code></td><td><code>""</code></td></tr>
+    <tr><td><code>alt</code></td><td><code>string</code></td><td><code>name</code></td></tr>
+    <tr><td><code>size</code></td><td><code>number</code></td><td><code>32</code></td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Keyboard and accessibility
+
+With `src`, the avatar is an `img` and `alt` falls back to `name`, so the accessible name is the
+person's name.
+
+Without `src` there is no image and no `alt`: the fallback is a `div` holding the initials as text.
+A screen reader reads `AL`, not `Ada Lovelace`. Keep a visible name beside the avatar, or pass the
+name in the surrounding text.
+
+The avatar takes no focus and has no keys.
+
+## When not to use it
+
+When the name already sits next to it, an avatar adds no information and costs a request per row.
+If there is no person behind the mark, use an `Icon`.
+
+For a group, a count or a `Badge` is smaller than a row of circles.
+
+## Notes
+
+`src` takes a filesystem path, a data URL or an http(s) URL, and the image is cropped with
+`objectFit="cover"`, so a portrait never squashes into the circle. Without `src` the first letters
+of the first two words are painted on the muted surface, which is the normal state, not a failure.
+
+The fallback is upper-cased and capped at two characters. A single word gives its first two
+letters; nothing gives `?`.
+

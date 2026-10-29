@@ -1,0 +1,67 @@
+---
+title: Tooltip
+description: One line of context over an inverted surface.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/tooltip.tsx?raw"
+
+```bash
+flint-ui add tooltip
+```
+
+## Usage
+
+```tsx
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
+import { Button } from "@/components/ui/button"
+import { Icon } from "@/lib/flint"
+
+<Tooltip>
+  <TooltipTrigger asChild>
+    <Button variant="ghost" size="icon" aria-label="Remove">
+      <Icon name="minus" />
+    </Button>
+  </TooltipTrigger>
+  <TooltipContent>Remove from workspace</TooltipContent>
+</Tooltip>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>open</code> / <code>defaultOpen</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>onOpenChange</code></td><td><code>(open: boolean) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>delayDuration</code></td><td><code>number</code></td><td>base default</td></tr>
+    <tr><td><code>side</code> / <code>align</code> <span>on Content</span></td><td><code>"top" | "right" | "bottom" | "left"</code></td><td><code>"top"</code> / <code>"center"</code></td></tr>
+    <tr><td><code>children</code> <span>on Content</span></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>style</code> <span>on Content</span></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+- The surface is inverted: `foreground` fill, `background` text. That is the one place a large block
+  of the text colour is used as a background, and it is why the tooltip needs no border.
+- Keep it to one line. Anything longer belongs in the interface, not in a tooltip.
+- The trigger needs its own accessible name. A tooltip is a hint, not a label. Pass `aria-label` on
+  icon-only buttons.
+
+## Keyboard and accessibility
+
+The trigger opens the tooltip on pointer enter and on focus, and closes it on blur, Escape, a press
+and pointer leave after 80ms. Focus never moves into the content, so there is nothing to return; the
+trigger keeps focus throughout. The content has no `role="tooltip"` and the trigger sets no
+`aria-describedby`, so a screen reader does not announce the text. Pass `aria-label` on the trigger
+when the tooltip carries information the control needs to be understood.
+
+## When not to use it
+
+If the information is needed to use the control, put it in a visible `Label` or hint; a tooltip is
+hidden and not announced.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/tooltip.tsx" />

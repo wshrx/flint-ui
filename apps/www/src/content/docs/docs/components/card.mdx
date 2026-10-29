@@ -1,0 +1,73 @@
+---
+title: Card
+description: A surface with six parts, for grouping that is not another card.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/card.tsx?raw"
+
+```bash
+flint-ui add card
+```
+
+## Usage
+
+```tsx
+import {
+  Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+
+<Card>
+  <CardHeader>
+    <CardTitle>Profile</CardTitle>
+    <CardDescription>How the workspace appears to people you invite.</CardDescription>
+  </CardHeader>
+  <CardContent>{/* fields */}</CardContent>
+  <CardFooter>
+    <Button variant="outline" size="sm">Export</Button>
+  </CardFooter>
+</Card>
+```
+
+## Variants
+
+| `variant` | Surface | Use for |
+| --- | --- | --- |
+| `default` | `card` fill, hairline border | most panels |
+| `inset` | `muted` fill, no border | a block inside another surface |
+| `outline` | transparent, hairline | a preview or an empty slot |
+
+## Props
+
+Each part takes `children` and `style`. `Card` also takes `variant`.
+
+| Part | Props |
+| --- | --- |
+| `Card` | `children`, `variant` (`"default"`, `"inset"`, `"outline"`; default `"default"`), `style` |
+| `CardHeader` | `children`, `style` |
+| `CardTitle` | `children`, `style` |
+| `CardDescription` | `children`, `style` |
+| `CardContent` | `children`, `style` |
+| `CardFooter` | `children`, `style` |
+
+## Keyboard and accessibility
+
+The card is layout only. `CardTitle` is styled text, not a heading element, so a screen reader reads
+the card in document order without a section boundary. When a card starts a region that a reader
+would want to jump to, render a heading yourself and keep the visual title inside it.
+## Notes
+
+- `CardFooter` draws its own top hairline. Do not add a separator.
+- A card inside a card is always wrong. If you need a group inside a card, use a heading and a
+  hairline, or switch the inner block to `inset`.
+- The card has no shadow. Depth is reserved for surfaces that float above the page: menus, dialogs
+  and the tooltip.
+
+## When not to use it
+
+To divide two regions without adding a surface, use `Separator`.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/card.tsx" />

@@ -1,0 +1,109 @@
+---
+title: Theming
+description: One token object, two palettes, and a contrast check you can run.
+slug: v0.1.1/docs/theming
+---
+
+GPUIX has no CSS custom properties, so flint does not pretend otherwise. The theme is a plain
+object. Components read it through `useTheme()`, which means a theme switch is one React render
+and nothing is left on the old palette.
+
+## The shape
+
+```ts title="src/lib/flint/theme.ts"
+export interface FlintTheme {
+  name: "dark" | "light"
+  appearance: "dark" | "light"
+  colors: FlintColors
+  radius: { xs: 4; sm: 6; md: 8; lg: 10; xl: 14; full: 999 }
+  font: { sans: "Medeo Sans"; mono: "Medeo Mono"; display: "Medeo Sans Display" }
+  text: { xs: 11; sm: 12; base: 13; md: 14; lg: 16; xl: 20; "2xl": 24; "3xl": 32 }
+  leading: { tight: 1.2; normal: 1.45; relaxed: 1.6 }
+  shadow: { sm: FlintShadow[]; md: FlintShadow[]; lg: FlintShadow[] }
+}
+```
+
+`lineHeight` is in **pixels** in GPUIX, not a multiplier. `Text` multiplies `leading` by the font
+size before passing it down — if you build a component by hand, do the same or the text will
+overlap.
+
+## Colours
+
+| Token | Dark | Light | Used for |
+| --- | --- | --- | --- |
+| `background` | `#0A0C10` | `#F6F8FA` | window surface |
+| `foreground` | `#E8EDF4` | `#0F1419` | body text |
+| `card` | `#0F1218` | `#FFFFFF` | cards, panels |
+| `popover` | `#12161D` | `#FFFFFF` | menus, dialogs, tooltips |
+| `primary` | `#38BDF8` | `#0369A1` | the sky accent: primary actions |
+| `secondary` | `#161B23` | `#E9EDF2` | quiet actions |
+| `muted` | `#11161D` | `#EEF1F5` | inputs at rest, code |
+| `mutedForeground` | `#98A2B3` | `#52606F` | hints, captions |
+| `accent` | `#161C26` | `#E8EDF3` | hover wash |
+| `destructive` | `#C0323A` | `#BC2F36` | destructive actions |
+| `success` | `#9BD8B4` | `#1D6B45` | status |
+| `border` | `#1E2530` | `#DCE2EA` | hairlines |
+| `input` | `#606B7E` | `#7C8B9D` | field edges |
+| `ring` | `#38BDF8` | `#0369A1` | focus rings |
+| `overlay` | `#05070ACC` | `#0F141966` | dialog backdrop |
+
+`input` is deliberately lighter than `border`. A field edge is the only thing identifying an
+empty input, so it has to clear 3:1 against the background; a decorative hairline does not.
+
+## Switching
+
+```tsx
+import { ThemeProvider, flintDark, flintLight } from "@/lib/flint"
+
+<ThemeProvider theme={dark ? flintDark : flintLight}>
+  <App />
+</ThemeProvider>
+```
+
+The default is dark, because the first window a desktop app opens is dark. There is no system
+preference hook: GPUIX does not expose one, and guessing is worse than asking.
+
+## Overriding one component
+
+Every component takes a `style` prop and merges it last, one level deep. You do not have to fork
+the file to move a border radius:
+
+```tsx
+<Button style={{ borderRadius: 999, paddingLeft: 18, paddingRight: 18 }}>
+  Pill
+</Button>
+```
+
+`hover`, `active` and `focusVisible` merge field by field, so this keeps the button's focus ring
+while replacing only the hover background:
+
+```tsx
+<Button style={{ hover: { backgroundColor: "#7C3AED" } }}>Custom</Button>
+```
+
+## Checking contrast
+
+The palette ships with the check that produced it:
+
+```bash
+bun run scripts/contrast.ts
+```
+
+It walks every pair the components actually paint and fails below 4.5:1 for text and 3:1 for
+control edges and focus rings. Run it after changing a token; do not eyeball it.
+
+## Type
+
+Medeo Sans is spaced for text; Medeo Sans Display is tighter and meant for headings. Medeo Mono
+is for code, identifiers and aligned numbers only — not as a costume for "technical".
+
+```tsx
+import { Text } from "@/lib/flint"
+
+<Text size="2xl" weight="semibold">Workspace settings</Text>
+<Text size="sm" tone="muted">Changes apply to every member.</Text>
+<Text size="xs" mono tone="muted">flint-ui add button</Text>
+```
+
+Sizes are 11, 12, 13, 14, 16, 20, 24, 32. Weights are 400, 500, 600, 700. If you need a size that
+is not on the scale, the scale is wrong — change it once in `theme.ts`.

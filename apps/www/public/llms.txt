@@ -1,0 +1,44 @@
+# flint
+
+> A component registry for GPUIX. Copy the source into your app, style it with tokens, keep it.
+
+## Docs
+
+- [Installation](https://wshrx.github.io/flint-ui/docs/installation/): install the CLI, init, provider, add
+- [CLI](https://wshrx.github.io/flint-ui/docs/cli/): init, add, list, diff, flags, exit codes
+- [Registry](https://wshrx.github.io/flint-ui/docs/registry/): registry.json format and validation
+- [Theming](https://wshrx.github.io/flint-ui/docs/theming/): tokens, light and dark palettes
+- [Versioning](https://wshrx.github.io/flint-ui/docs/versioning/): packages, docs archives, release policy
+- [License](https://wshrx.github.io/flint-ui/docs/license/): MIT, third-party credits
+
+## Components
+
+- [Button](https://wshrx.github.io/flint-ui/docs/components/button/)
+- [Input](https://wshrx.github.io/flint-ui/docs/components/input/)
+- [Textarea](https://wshrx.github.io/flint-ui/docs/components/textarea/)
+- [Label](https://wshrx.github.io/flint-ui/docs/components/label/)
+- [Field](https://wshrx.github.io/flint-ui/docs/components/field/)
+- [Checkbox](https://wshrx.github.io/flint-ui/docs/components/checkbox/)
+- [Switch](https://wshrx.github.io/flint-ui/docs/components/switch/)
+- [Select](https://wshrx.github.io/flint-ui/docs/components/select/)
+- [Combobox](https://wshrx.github.io/flint-ui/docs/components/combobox/)
+- [Dialog](https://wshrx.github.io/flint-ui/docs/components/dialog/)
+- [ContextMenu](https://wshrx.github.io/flint-ui/docs/components/context-menu/)
+- [Tabs](https://wshrx.github.io/flint-ui/docs/components/tabs/)
+- [Card](https://wshrx.github.io/flint-ui/docs/components/card/)
+- [Badge](https://wshrx.github.io/flint-ui/docs/components/badge/)
+- [Tooltip](https://wshrx.github.io/flint-ui/docs/components/tooltip/)
+- [Separator](https://wshrx.github.io/flint-ui/docs/components/separator/)
+- [Skeleton](https://wshrx.github.io/flint-ui/docs/components/skeleton/)
+- [Progress](https://wshrx.github.io/flint-ui/docs/components/progress/)
+- [Alert](https://wshrx.github.io/flint-ui/docs/components/alert/)
+- [Avatar](https://wshrx.github.io/flint-ui/docs/components/avatar/)
+- [Accordion](https://wshrx.github.io/flint-ui/docs/components/accordion/)
+- [Kbd](https://wshrx.github.io/flint-ui/docs/components/kbd/)
+- [Dropzone](https://wshrx.github.io/flint-ui/docs/components/dropzone/)
+
+## Sources
+
+- Registry manifest: https://raw.githubusercontent.com/wshrx/flint-ui/main/registry/registry.json
+- Component sources: https://github.com/wshrx/flint-ui/tree/main/registry/components/ui
+- GPUIX contract: https://github.com/wshrx/flint-ui/blob/main/docs/gpuix-contract.md

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wshrx.github.io/flint-ui/schema/flint.json",
+  "title": "flint.json",
+  "description": "Where flint-ui writes files and where it reads the registry from.",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "root": {
+      "type": "string",
+      "description": "Directory that receives components/ui and lib/flint.",
+      "default": "src"
+    },
+    "registry": {
+      "type": "string",
+      "description": "Folder path or base URL of a registry.",
+      "default": "https://raw.githubusercontent.com/wshrx/flint-ui/main/registry"
+    }
+  },
+  "required": ["root"],
+  "additionalProperties": false
+}

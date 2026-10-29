@@ -1,0 +1,85 @@
+---
+title: Select
+description: One of N, keyboard first, with a menu that stays inside the window.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/select.tsx?raw"
+
+```bash
+flint-ui add select
+```
+
+## Usage
+
+```tsx
+import { useState } from "react"
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select"
+
+const [role, setRole] = useState("viewer")
+
+const roles = [
+  { value: "viewer", label: "Viewer" },
+  { value: "editor", label: "Editor" },
+  { value: "admin", label: "Admin" },
+]
+
+<Select value={role} onValueChange={setRole} items={roles}>
+  <SelectTrigger aria-label="Role">
+    <SelectValue placeholder="Pick a role" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="viewer">Viewer</SelectItem>
+    <SelectItem value="editor">Editor</SelectItem>
+    <SelectItem value="admin">Admin</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## The items prop is not decoration
+
+`SelectValue` reads its label from `items`. Without it the trigger falls back to the raw value, so
+`editor` is shown instead of `Editor`. Pass the same array you render, or pass a pre-formatted
+`children` to `SelectValue`.
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>defaultValue</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>onValueChange</code></td><td><code>(value: string) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>items</code></td><td><code>SelectItemData[]</code></td><td>—</td></tr>
+    <tr><td><code>open</code> / <code>defaultOpen</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>onOpenChange</code></td><td><code>(open: boolean) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>children</code> <span>on Trigger / Content</span></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>style</code> <span>on Trigger</span></td><td><code>StateStyle&lt;SelectTriggerState&gt;</code></td><td>—</td></tr>
+    <tr><td><code>style</code> <span>on Content</span></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+The menu accepts `side`, `align`, `sideOffset` and `collisionPadding` through `SelectContent`, and
+flips when it would leave the window.
+
+## Keyboard and accessibility
+
+| Key | Action |
+| --- | --- |
+| Enter, Space, ↑, ↓ | open the menu |
+| ↑ ↓, Ctrl+N, Ctrl+P | move the highlight |
+| Enter, Space | choose the highlighted item |
+| Escape | close and return focus to the trigger |
+| Tab | held inside while the menu is open |
+
+The trigger and the menu are focusable, but the base sets no `combobox`, `listbox` or `option` roles
+and no `aria-expanded`, so a screen reader gets the text without select semantics. Pass `aria-label`
+on `SelectTrigger` to name the field. Escape and a choice both close the menu and return focus to
+the trigger; an outside press closes it and leaves focus where the press landed.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/select.tsx" />

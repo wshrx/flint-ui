@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["bun"],
+    "paths": {
+      "@/*": ["./registry/*"]
+    }
+  },
+  "include": ["registry/**/*.ts", "registry/**/*.tsx", "scripts/**/*.ts", "examples/**/*.tsx"]
+}

@@ -1,0 +1,35 @@
+---
+title: Badge
+description: Status, counts and labels, in five tones.
+slug: v0.1.1/docs/components/badge
+---
+
+
+## Usage
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+
+<Badge>Owner</Badge>
+<Badge variant="secondary">Editor</Badge>
+<Badge variant="outline">MIT</Badge>
+<Badge variant="destructive">Failed</Badge>
+<Badge variant="success" dot>Connected</Badge>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>variant</code></td><td><code>"default" | "secondary" | "outline" | "destructive" | "success"</code></td><td><code>"default"</code></td></tr>
+    <tr><td><code>dot</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+The badge is 20px tall with 11px text. Numerals inside a badge use the same font as the label; do not
+switch to mono for a count, or a row of badges will jitter. `success` is the only non-ember colour in
+the palette, and it is reserved for live state — not for decoration.
+

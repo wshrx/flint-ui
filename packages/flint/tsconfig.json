@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      "@/*": ["../../registry/*"]
+    }
+  },
+  "include": ["../../registry/index.ts", "../../registry/components/**/*.tsx", "../../registry/lib/**/*.ts", "../../registry/lib/**/*.tsx"]
+}
