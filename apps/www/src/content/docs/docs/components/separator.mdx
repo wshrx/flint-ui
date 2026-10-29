@@ -1,0 +1,46 @@
+---
+title: Separator
+description: A hairline between blocks, with an optional label.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/separator.tsx?raw"
+
+## Usage
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+
+<Separator />
+
+<Separator label="or" />
+
+<div style={{ display: "flex", alignItems: "center", gap: 12, height: 24 }}>
+  <Text>Left</Text>
+  <Separator orientation="vertical" />
+  <Text>Right</Text>
+</div>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>orientation</code></td><td><code>"horizontal" | "vertical"</code></td><td><code>"horizontal"</code></td></tr>
+    <tr><td><code>label</code></td><td><code>string</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+A horizontal separator is one pixel of `border` and takes the full width. The vertical one
+stretches to the height of its row, so it needs a parent with a height — inside a line of text it
+collapses to nothing.
+
+`label` only applies horizontally and renders at 11 px in `mutedForeground`. It is a section break,
+not a heading: do not put a label on a separator that already sits under a heading.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/separator.tsx" />

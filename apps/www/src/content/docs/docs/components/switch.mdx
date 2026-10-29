@@ -1,0 +1,44 @@
+---
+title: Switch
+description: A 34×20 switch for settings that apply immediately.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/switch.tsx?raw"
+
+## Usage
+
+```tsx
+import { Switch } from "@/components/ui/switch"
+
+const [beta, setBeta] = useState(false)
+
+<div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+  <Switch checked={beta} onCheckedChange={setBeta} />
+  <Text>Beta channel</Text>
+</div>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>checked</code></td><td><code>boolean</code></td><td>—</td></tr>
+    <tr><td><code>defaultChecked</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>onCheckedChange</code></td><td><code>(checked: boolean) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+A switch applies its change immediately; a checkbox is a value you submit later. If the setting needs
+a Save button, use `Checkbox`.
+
+The thumb moves by `justifyContent`, not by an animated offset: GPUIX motion cannot animate a
+transform, and a 120ms jump between two states reads better than a tween that never lands.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/switch.tsx" />

@@ -1,0 +1,53 @@
+---
+title: Tabs
+description: Two shapes of tabs, one controlled value.
+slug: v0.1/docs/components/tabs
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../../registry/components/ui/v0.1/tabs.tsx?raw"
+
+## Usage
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+
+const [tab, setTab] = useState("general")
+
+<Tabs value={tab} onValueChange={setTab}>
+  <TabsList>
+    <TabsTrigger value="general">General</TabsTrigger>
+    <TabsTrigger value="members">Members</TabsTrigger>
+  </TabsList>
+  <TabsContent value="general">{/* … */}</TabsContent>
+  <TabsContent value="members">{/* … */}</TabsContent>
+</Tabs>
+```
+
+`TabsList variant="line"` puts the strip on a hairline instead of a filled track, for settings pages
+where the tabs sit under a heading.
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>defaultValue</code></td><td><code>string</code></td><td><code>""</code></td></tr>
+    <tr><td><code>onValueChange</code></td><td><code>(value: string) => void</code></td><td>—</td></tr>
+    <tr><td><code>variant</code> <span>on List</span></td><td><code>"segmented" | "line"</code></td><td><code>"segmented"</code></td></tr>
+    <tr><td><code>value</code> <span>on Trigger / Content</span></td><td><code>string</code></td><td>required</td></tr>
+    <tr><td><code>disabled</code> <span>on Trigger</span></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+Inactive panels are **unmounted**, not hidden. That is deliberate: a panel with an input should not
+keep state the user cannot see, and it keeps cost proportional to what is on screen. If you need a
+panel to stay mounted, render it yourself and toggle `visibility`.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/tabs.tsx" />

@@ -1,0 +1,50 @@
+---
+title: Tooltip
+description: One line of context over an inverted surface.
+slug: v0.1/docs/components/tooltip
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../../registry/components/ui/v0.1/tooltip.tsx?raw"
+
+## Usage
+
+```tsx
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
+import { Button } from "@/components/ui/button"
+import { Icon } from "@/lib/flint"
+
+<Tooltip>
+  <TooltipTrigger asChild>
+    <Button variant="ghost" size="icon" aria-label="Remove">
+      <Icon name="minus" />
+    </Button>
+  </TooltipTrigger>
+  <TooltipContent>Remove from workspace</TooltipContent>
+</Tooltip>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+
+  <tbody>
+    <tr><td><code>open</code> / <code>defaultOpen</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>onOpenChange</code></td><td><code>(open: boolean) => void</code></td><td>—</td></tr>
+    <tr><td><code>delayDuration</code></td><td><code>number</code></td><td>base default</td></tr>
+    <tr><td><code>side</code> / <code>align</code> <span>on Content</span></td><td><code>"top" | "right" | "bottom" | "left"</code></td><td><code>"top"</code> / <code>"center"</code></td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+* The surface is inverted: `foreground` fill, `background` text. That is the one place a large block
+  of the text colour is used as a background, and it is why the tooltip needs no border.
+* Keep it to one line. Anything longer belongs in the interface, not in a tooltip.
+* The trigger needs its own accessible name. A tooltip is a hint, not a label — pass `aria-label` on
+  icon-only buttons.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/tooltip.tsx" />

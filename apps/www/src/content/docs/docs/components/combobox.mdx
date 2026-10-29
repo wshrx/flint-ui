@@ -1,0 +1,75 @@
+---
+title: Combobox
+description: A searchable picker for lists longer than a select should be.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/combobox.tsx?raw"
+
+## Usage
+
+```tsx
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const roles = ["Viewer", "Editor", "Admin", "Billing", "Owner"]
+
+<Combobox items={roles} defaultValue="Editor">
+  <ComboboxInput placeholder="Search roles" />
+  <ComboboxContent>
+    <ComboboxList>
+      {(item) => <ComboboxItem value={item}>{item}</ComboboxItem>}
+    </ComboboxList>
+    <ComboboxEmpty>No role matches that.</ComboboxEmpty>
+  </ComboboxContent>
+</Combobox>
+```
+
+## Props
+
+`Combobox` passes everything to the headless primitive; the useful ones:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>items</code></td><td><code>readonly string[]</code></td><td>—</td></tr>
+    <tr><td><code>value</code> / <code>defaultValue</code></td><td><code>string | string[] | null</code></td><td><code>null</code></td></tr>
+    <tr><td><code>onValueChange</code></td><td><code>(value) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>multiple</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>filter</code></td><td><code>null | (item, query, itemToString) =&gt; boolean</code></td><td>substring match</td></tr>
+  </tbody>
+</table>
+
+`ComboboxItem`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>children</code></td><td><code>string</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+The input is the trigger: typing filters the list, arrows move the highlight, Enter picks the
+highlighted item and Escape closes. That behaviour is `@gpuix/react`'s `Combobox`, not a key
+handler here; flint only supplies the surface, the check mark and the empty state.
+
+Use it when the list is long enough that scanning a select is work — roles, people, time zones.
+For five fixed options a `Select` is faster, and for a free-form value a plain `Input` is honest.
+
+`children` of `ComboboxItem` is a string on purpose: it is painted through `<Text>`, so the label
+takes the theme colour instead of GPUI's default black. Put an icon in the item's trailing slot
+by wrapping the primitive directly if you need one.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/combobox.tsx" />

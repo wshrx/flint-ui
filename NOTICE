@@ -1,0 +1,24 @@
+flint
+=====
+
+The component API, the registry shape and the "copy the source into your app"
+model are inspired by shadcn/ui (https://github.com/shadcn-ui/ui), MIT,
+Copyright (c) 2023 shadcn.
+
+No source file from shadcn/ui is copied into this repository: the components are
+written for GPUIX, which has no DOM, no CSS and no Tailwind. Only the naming of
+the variants and the public prop shapes follow the original.
+
+Medeo Sans, Medeo Mono and Medeo Pixel
+--------------------------------------
+
+Copyright (c) DNF (https://dnf.dev), SIL Open Font License 1.1.
+Full license text: registry/fonts/OFL.txt
+Source: https://github.com/DNFDEVS/medeo-font
+
+Lucide icons
+------------
+
+ISC License, Copyright (c) Lucide Contributors.
+Only the SVG paths are embedded, as strings, in registry/icons/index.ts.
+Source: https://github.com/lucide-icons/lucide

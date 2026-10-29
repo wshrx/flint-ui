@@ -1,0 +1,769 @@
+/* flint docs — tokens first, Starlight second. */
+
+@font-face {
+  font-family: "Medeo Sans";
+  src: url("/fonts/MedeoSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Medeo Sans";
+  src: url("/fonts/MedeoSans-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Medeo Sans";
+  src: url("/fonts/MedeoSans-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Medeo Sans";
+  src: url("/fonts/MedeoSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Medeo Mono";
+  src: url("/fonts/MedeoMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Medeo Mono";
+  src: url("/fonts/MedeoMono-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root,
+:root[data-theme="dark"] {
+  --flint-bg: #0a0c10;
+  --flint-surface: #0f1218;
+  --flint-raised: #161b23;
+  --flint-text: #e8edf4;
+  --flint-muted: #98a2b3;
+  --flint-faint: #6b7686;
+  --flint-border: #1e2530;
+  --flint-border-strong: #2a3342;
+  --flint-accent: #38bdf8;
+  --flint-accent-strong: #7dd3fc;
+
+  --sl-font: "Medeo Sans", "Helvetica Neue", system-ui, sans-serif;
+  --sl-font-mono: "Medeo Mono", ui-monospace, "SF Mono", monospace;
+
+  --sl-color-bg: var(--flint-bg);
+  --sl-color-bg-nav: var(--flint-bg);
+  --sl-color-bg-sidebar: var(--flint-bg);
+  --sl-color-bg-inline-code: var(--flint-raised);
+  --sl-color-bg-accent: #201f22;
+
+  --sl-color-text: var(--flint-text);
+  --sl-color-text-accent: var(--flint-accent);
+  --sl-color-text-invert: #1b0e09;
+
+  --sl-color-hairline-shade: #1b1a1e;
+  --sl-color-hairline: var(--flint-border);
+  --sl-color-hairline-light: var(--flint-border-strong);
+
+  --sl-color-accent-low: #0b2a3d;
+  --sl-color-accent: var(--flint-accent);
+  --sl-color-accent-high: var(--flint-accent-strong);
+
+  --sl-color-white: var(--flint-text);
+  --sl-color-gray-1: #edeae4;
+  --sl-color-gray-2: #c9c5bd;
+  --sl-color-gray-3: var(--flint-muted);
+  --sl-color-gray-4: var(--flint-faint);
+  --sl-color-gray-5: #2a3342;
+  --sl-color-gray-6: #161b23;
+  --sl-color-black: var(--flint-bg);
+
+  --sl-content-width: 46rem;
+  --sl-sidebar-width: 15.5rem;
+  --sl-line-height: 1.65;
+}
+
+:root[data-theme="light"] {
+  --flint-bg: #eef1f4;
+  --flint-surface: #fafbfc;
+  --flint-raised: #eef1f5;
+  --flint-text: #0f1419;
+  --flint-muted: #52606f;
+  --flint-faint: #7c8b9d;
+  --flint-border: #dce2ea;
+  --flint-border-strong: #c9d2dd;
+  --flint-accent: #0369a1;
+  --flint-accent-strong: #075985;
+
+  --sl-color-bg: var(--flint-bg);
+  --sl-color-bg-nav: var(--flint-bg);
+  --sl-color-bg-sidebar: var(--flint-bg);
+  --sl-color-bg-inline-code: var(--flint-raised);
+
+  --sl-color-text: var(--flint-text);
+  --sl-color-text-accent: var(--flint-accent);
+  --sl-color-text-invert: #fff7f2;
+
+  --sl-color-hairline-shade: #e4e0d8;
+  --sl-color-hairline: var(--flint-border);
+  --sl-color-hairline-light: var(--flint-border-strong);
+
+  --sl-color-accent-low: #d7ebf7;
+  --sl-color-accent: var(--flint-accent);
+  --sl-color-accent-high: #7d2c17;
+
+  --sl-color-white: var(--flint-text);
+  --sl-color-gray-1: #161618;
+  --sl-color-gray-2: #2c2b2e;
+  --sl-color-gray-3: var(--flint-muted);
+  --sl-color-gray-4: var(--flint-faint);
+  --sl-color-gray-5: #c9d2dd;
+  --sl-color-gray-6: #eef1f5;
+  --sl-color-black: #ffffff;
+}
+
+html {
+  background: var(--flint-bg);
+}
+
+body {
+  font-family: var(--sl-font);
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--flint-accent) 35%, transparent);
+  color: var(--flint-text);
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+
+header.header {
+  border-bottom: 1px solid var(--sl-color-hairline);
+  background: var(--flint-bg);
+  padding-inline: 1.1rem;
+  height: 3.25rem;
+}
+
+.flint-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 100%;
+  height: 100%;
+}
+
+.flint-header-start,
+.flint-header-end {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.flint-header-end > * {
+  flex-shrink: 0;
+}
+
+.flint-header-end .flint-search {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.flint-header-end starlight-theme-select,
+.flint-header-end starlight-version-select,
+.flint-lang {
+  white-space: nowrap;
+}
+
+.flint-header-start {
+  gap: 1.6rem;
+}
+
+.flint-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.flint-nav a {
+  font-size: 0.8rem;
+  color: var(--flint-muted);
+  text-decoration: none;
+}
+
+.flint-nav a:hover {
+  color: var(--flint-text);
+}
+
+.flint-search {
+  width: 13rem;
+}
+
+.flint-search site-search button[data-open-modal] {
+  width: 100%;
+}
+
+.flint-github {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 5px;
+  color: var(--flint-muted);
+}
+
+.flint-github:hover {
+  color: var(--flint-text);
+  background: var(--flint-raised);
+}
+
+.flint-mobile-only {
+  display: none;
+}
+
+@media (max-width: 60rem) {
+  .flint-nav,
+  .flint-search {
+    display: none;
+  }
+
+  .flint-mobile-only {
+    display: block;
+  }
+
+  /* Splash pages have no sidebar, so the toggle would open nothing. */
+  body:not(:has(#starlight__sidebar)) .flint-mobile-only {
+    display: none;
+  }
+
+  /* The theme and the language live in the mobile drawer, next to the
+     navigation. Keeping them in the bar squeezes the title and the version
+     picker into each other on a 390 px screen. */
+  .flint-lang,
+  .flint-header-end starlight-theme-select {
+    display: none;
+  }
+
+  .flint-header {
+    gap: 0.75rem;
+  }
+
+  .flint-header-end {
+    gap: 0.35rem;
+  }
+
+  .flint-header-end starlight-version-select select {
+    min-width: 0;
+    padding-inline: 0.35rem;
+  }
+
+  /* Starlight pins its menu button to the viewport corner as a white circle.
+     In this header it belongs in the row, before the wordmark. */
+  .flint-header button[popovertarget="starlight__sidebar"] {
+    position: static;
+    width: 1.9rem;
+    height: 1.9rem;
+    padding: 0.35rem;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--flint-muted);
+    box-shadow: none;
+  }
+
+  .flint-header button[popovertarget="starlight__sidebar"]:hover {
+    color: var(--flint-text);
+    background: var(--flint-raised);
+  }
+
+  [data-has-sidebar] .header {
+    padding-inline-end: var(--sl-nav-pad-x);
+  }
+
+  /* Starlight also renders the same toggle inside the sidebar nav; the header
+     already has one, so the fixed duplicate would float over the version
+     picker. */
+  nav.sidebar > button[popovertarget="starlight__sidebar"] {
+    display: none;
+  }
+}
+
+.site-title {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 1rem;
+  gap: 0.55rem;
+}
+
+.site-title img {
+  height: 1.35rem;
+  width: auto;
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────────── */
+
+.sidebar-pane {
+  border-inline-end: 1px solid var(--sl-color-hairline);
+  background: var(--flint-bg);
+}
+
+.sidebar-content {
+  padding-top: 1.5rem;
+}
+
+.sidebar-content ul {
+  gap: 0.1rem;
+}
+
+.sidebar-content a {
+  font-size: 0.845rem;
+  line-height: 1.3;
+  padding: 0.37rem 0.55rem;
+  border-radius: 5px;
+  color: var(--flint-muted);
+}
+
+.sidebar-content a:hover {
+  color: var(--flint-text);
+  background: color-mix(in srgb, var(--flint-text) 5%, transparent);
+}
+
+.sidebar-content a[aria-current="page"] {
+  color: var(--flint-text);
+  background: color-mix(in srgb, var(--flint-text) 7%, transparent);
+  font-weight: 500;
+  box-shadow: inset 2px 0 0 var(--flint-accent);
+}
+
+.sidebar-content .large {
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--flint-faint);
+  font-weight: 500;
+}
+
+/* ── Content ────────────────────────────────────────────────────────── */
+
+.sl-markdown-content {
+  font-size: 0.945rem;
+  line-height: 1.68;
+}
+
+.sl-markdown-content > :not(a) {
+  color: var(--sl-color-text);
+}
+
+.sl-markdown-content h1,
+.content-panel h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  margin-bottom: 0.4rem;
+}
+
+.sl-markdown-content h2 {
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-top: 2.6rem;
+  padding-top: 0.1rem;
+  border-top: 0;
+}
+
+.sl-markdown-content h3 {
+  font-size: 0.97rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 1.9rem;
+}
+
+.sl-markdown-content p,
+.sl-markdown-content li {
+  color: color-mix(in srgb, var(--flint-text) 88%, transparent);
+}
+
+.sl-markdown-content strong {
+  color: var(--flint-text);
+  font-weight: 600;
+}
+
+.sl-markdown-content a {
+  color: var(--flint-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.sl-markdown-content a:hover {
+  color: var(--flint-accent-strong);
+}
+
+.sl-markdown-content code:not(:where(.expressive-code *)) {
+  font-family: var(--sl-font-mono);
+  font-size: 0.82em;
+  background: var(--flint-raised);
+  border: 1px solid var(--flint-border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  color: var(--flint-text);
+}
+
+.sl-markdown-content hr {
+  border-color: var(--flint-border);
+}
+
+/* ── Code blocks ────────────────────────────────────────────────────── */
+
+.expressive-code .frame {
+  border: 1px solid var(--flint-border) !important;
+  border-radius: 6px !important;
+  background: var(--flint-surface) !important;
+  box-shadow: none !important;
+}
+
+.expressive-code .frame pre {
+  background: transparent !important;
+  overflow-x: auto !important;
+}
+
+.expressive-code .frame {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Grid children default to min-width:auto, which clips code. */
+.content-panel .sl-container,
+.sl-markdown-content,
+.flint-split-code {
+  min-width: 0;
+}
+
+.expressive-code .header {
+  border-bottom: 1px solid var(--flint-border) !important;
+  background: transparent !important;
+}
+
+.expressive-code code {
+  font-family: var(--sl-font-mono) !important;
+}
+
+/* ── Right rail, pagination, search ─────────────────────────────────── */
+
+.right-sidebar {
+  border-inline-start: 1px solid var(--sl-color-hairline);
+}
+
+.right-sidebar h2 {
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--flint-faint);
+}
+
+.pagination-links a {
+  border: 1px solid var(--flint-border);
+  border-radius: 6px;
+  box-shadow: none;
+  background: var(--flint-surface);
+}
+
+.pagination-links a:hover {
+  background: var(--flint-raised);
+}
+
+.pagination-links .link-title {
+  color: var(--flint-accent);
+}
+
+site-search button[data-open-modal] {
+  border: 1px solid var(--flint-border);
+  background: var(--flint-surface);
+  border-radius: 6px;
+  color: var(--flint-muted);
+}
+
+/* ── Scrollbars ─────────────────────────────────────────────────────── */
+
+* {
+  scrollbar-color: var(--flint-border-strong) transparent;
+  scrollbar-width: thin;
+}
+
+/* ── Starlight tabs ─────────────────────────────────────────────────── */
+
+starlight-tabs [role="tablist"] {
+  border-bottom: 1px solid var(--flint-border);
+  gap: 1.25rem;
+}
+
+starlight-tabs [role="tab"] {
+  font-size: 0.85rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0;
+}
+
+starlight-tabs [role="tab"][aria-selected="true"] {
+  border-bottom-color: var(--flint-accent);
+  color: var(--flint-text);
+}
+
+@media (max-width: 50rem) {
+  .sidebar-pane {
+    border-inline-end: 0;
+  }
+}
+
+/* ── Component previews ─────────────────────────────────────────────── */
+
+.flint-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.4rem 0 2rem;
+  border: 1px solid var(--flint-border);
+  border-radius: 8px;
+  background: var(--flint-bg);
+}
+
+.flint-preview + p {
+  margin-top: -1.4rem;
+  font-size: 0.78rem;
+  color: var(--flint-faint);
+}
+
+.flint-props {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.flint-props th,
+.flint-props td {
+  text-align: left;
+  padding: 0.5rem 0.65rem 0.5rem 0;
+  border-bottom: 1px solid var(--flint-border);
+  vertical-align: top;
+}
+
+.flint-props th {
+  font-weight: 500;
+  color: var(--flint-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.flint-props code {
+  white-space: nowrap;
+}
+
+/* The splash template prints the frontmatter title above the custom hero. */
+body:has(.flint-landing) h1#_top {
+  display: none;
+}
+
+/* Starlight's heading anchor sits inline and collides with the heading text
+   once the type scale is customised. Pin it to the left gutter instead. */
+.sl-markdown-content :is(h1, h2, h3, h4) {
+  position: relative;
+}
+
+.sl-markdown-content .sl-anchor-link {
+  position: absolute;
+  left: -1.15em;
+  top: 0;
+  padding: 0;
+  opacity: 0;
+  color: var(--flint-faint);
+  transition: opacity 120ms ease;
+}
+
+.sl-markdown-content :is(h1, h2, h3, h4):hover .sl-anchor-link,
+.sl-markdown-content .sl-anchor-link:focus-visible {
+  opacity: 1;
+}
+
+/* Component catalogue: a definition list survives a 390px viewport, a table
+   does not. */
+.flint-catalog {
+  display: flex;
+  flex-direction: column;
+  margin: 1.6rem 0 0;
+}
+
+.flint-catalog > div {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--flint-border);
+}
+
+.flint-catalog dt {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--flint-text);
+  margin: 0;
+}
+
+.flint-catalog dt a {
+  color: var(--flint-accent);
+  text-decoration: none;
+}
+
+.flint-catalog dt a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.flint-catalog dd {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--flint-muted);
+}
+
+@media (max-width: 46rem) {
+  .flint-catalog > div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .sl-markdown-content table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Starlight asides: no coloured left rail, no yellow. A hairline box and one
+   tinted icon carry the meaning. */
+.sl-markdown-content .starlight-aside {
+  border: 1px solid var(--flint-border);
+  border-inline-start: 1px solid var(--flint-border);
+  border-radius: 6px;
+  background: var(--flint-surface);
+  padding: 0.9rem 1rem;
+}
+
+.sl-markdown-content .starlight-aside__title {
+  color: var(--flint-text);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.sl-markdown-content .starlight-aside__icon {
+  color: var(--flint-accent);
+}
+
+.sl-markdown-content .starlight-aside--danger .starlight-aside__icon {
+  color: var(--flint-accent);
+}
+
+.sl-markdown-content .starlight-aside--note .starlight-aside__icon,
+.sl-markdown-content .starlight-aside--tip .starlight-aside__icon {
+  color: var(--flint-muted);
+}
+
+.sl-markdown-content .starlight-aside code {
+  background: var(--flint-raised);
+}
+
+/* starlight-versions notice and select, in the flint palette. */
+.flint-version-notice p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 1rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--flint-border) !important;
+  border-radius: 6px;
+  background: var(--flint-surface) !important;
+  color: var(--flint-muted) !important;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  width: 100% !important;
+  max-width: 100%;
+}
+
+.flint-version-notice svg {
+  color: var(--flint-accent) !important;
+}
+
+.flint-version-notice a {
+  color: var(--flint-accent);
+}
+
+starlight-version-select select {
+  border: 0;
+  background: transparent;
+  color: var(--flint-muted);
+  font-family: var(--sl-font);
+  font-size: 0.78rem;
+  appearance: none;
+  cursor: pointer;
+  padding-right: 0.9rem;
+}
+
+starlight-version-select label {
+  color: var(--flint-muted);
+  font-size: 0.78rem;
+}
+
+.flint-lang starlight-lang-select select {
+  border: 0;
+  background: transparent;
+  color: var(--flint-muted);
+  font-family: var(--sl-font);
+  font-size: 0.78rem;
+  appearance: none;
+  cursor: pointer;
+  padding-right: 0.9rem;
+}
+
+.flint-lang starlight-lang-select label {
+  color: var(--flint-muted);
+  font-size: 0.78rem;
+}
+
+/* Starlight's fallback-language notice: flat, hairline, accent icon. */
+:root {
+  --sl-color-orange: var(--flint-border);
+  --sl-color-orange-low: var(--flint-surface);
+  --sl-color-orange-high: var(--flint-muted);
+}
+
+main p.sl-flex > svg[aria-hidden] {
+  color: var(--flint-accent);
+}
+
+/* The theme picker label was clipped by Starlight's own max-width. */
+.flint-header-end starlight-theme-select,
+.flint-header-end starlight-theme-select label,
+.flint-header-end starlight-theme-select select {
+  max-width: none;
+}
+
+.flint-header-end starlight-theme-select span {
+  max-width: none;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.flint-header-end starlight-theme-select select {
+  width: auto;
+  min-width: 5.25rem;
+}

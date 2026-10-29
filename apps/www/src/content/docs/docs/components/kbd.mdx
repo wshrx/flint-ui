@@ -1,0 +1,38 @@
+---
+title: Kbd
+description: A keyboard hint on a hairline pill.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/kbd.tsx?raw"
+
+## Usage
+
+```tsx
+import { Kbd } from "@/components/ui/kbd"
+
+<Kbd>K</Kbd>
+<Kbd>⌘ K</Kbd>
+<Kbd>Ctrl Shift P</Kbd>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>children</code></td><td><code>string</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+One chord per element. If a shortcut is a sequence, render two `Kbd`s with a separator between
+them; two chords inside one pill read as a single key.
+
+The text is already formatted by the caller — `⌘`, `Ctrl`, `Shift` — because the right labels
+depend on the platform the app runs on, and flint does not guess.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/kbd.tsx" />

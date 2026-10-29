@@ -1,0 +1,67 @@
+name: release
+
+# Tag `v0.1.2` and the workflow builds the CLI binaries, packs both tarballs,
+# attaches them to the GitHub release, and uses the hand-written CHANGELOG
+# section as the release body. No npm account involved.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to rebuild the assets for
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: bun install --frozen-lockfile
+
+      - name: Tag and packages agree
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          version=$(sed -n 's/.*"version": "\([^"]*\)".*/\1/p' packages/cli/package.json | head -1)
+          if [ "$version" != "${TAG#v}" ]; then
+            echo "tag $TAG does not match packages at $version"
+            exit 1
+          fi
+
+      - name: Build the assets
+        run: bash scripts/build-release.sh
+
+      - name: Release notes
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: bun scripts/changelog-section.ts "$TAG" > release-notes.md
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --notes-file release-notes.md
+            gh release upload "$TAG" dist/release/* --clobber
+          else
+            gh release create "$TAG" dist/release/* \
+              --title "flint ${TAG#v}" \
+              --notes-file release-notes.md \
+              --verify-tag
+          fi

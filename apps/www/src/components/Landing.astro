@@ -1,0 +1,169 @@
+---
+import { Code } from "@astrojs/starlight/components"
+import HeroArt from "./HeroArt.astro"
+import buttonSource from "../../../../registry/components/ui/button.tsx?raw"
+
+
+const components = [
+  ["Button", "6 variants · 4 sizes"],
+  ["Input", "focus · invalid · adornments"],
+  ["Textarea", "3 → 8 rows"],
+  ["Label", "required mark"],
+  ["Checkbox", "controlled · keyboard"],
+  ["Switch", "34 × 20"],
+  ["Select", "keyboard · named values"],
+  ["Dialog", "portal · focus trap"],
+  ["Tabs", "segmented · line"],
+  ["Card", "3 surfaces · 6 parts"],
+  ["Badge", "5 tones · status dot"],
+  ["Tooltip", "inverted · one line"],
+  ["Field", "label · hint · error"],
+  ["Kbd", "keyboard · pill"],
+  ["Combobox", "search · keyboard"],
+  ["Separator", "line · label"],
+  ["Skeleton", "block · quiet"],
+  ["Progress", "bar · percent"],
+  ["Alert", "4 tones · inline"],
+  ["Avatar", "photo · initials"],
+  ["Accordion", "one panel · keyboard"],
+] as const
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+---
+
+<div class="flint-landing">
+  <section class="flint-hero">
+    <HeroArt />
+    <div class="flint-sky" aria-hidden="true"></div>
+    <div class="flint-hero-copy">
+    <div class="flint-mark" aria-hidden="true">
+      <svg class="flint-flame" viewBox="0 0 48 48" fill="none">
+        <path d="M24 4c7 9 12 14 12 21a12 12 0 0 1-24 0c0-4 2-7 5-10 0 3 1 5 3 6 1-6 2-11 4-17Z" fill="#38BDF8" opacity="0.9" />
+        <path d="M24 21c3 4 5 6 5 9a5 5 0 0 1-10 0c0-3 2-5 5-9Z" fill="#E0F2FE" opacity="0.85" />
+      </svg>
+      <svg class="flint-sun" viewBox="0 0 48 48" fill="none">
+        <g stroke="#0369A1" stroke-width="1.8" stroke-linecap="round" opacity="0.85">
+          <path d="M24 3v6M24 39v6M3 24h6M39 24h6M9 9l4 4M35 35l4 4M39 9l-4 4M13 35l-4 4" />
+        </g>
+        <circle class="flint-sun-ring" cx="24" cy="24" r="10" stroke="#0369A1" stroke-width="1.2" opacity="0.5" />
+        <circle cx="24" cy="24" r="7" fill="#0369A1" />
+      </svg>
+    </div>
+      <h1>Components<br />for GPUIX.</h1>
+      <p class="flint-lede">
+        Twenty-one components written as source. Copy a file into your app, change the values, keep it.
+        No CSS, no runtime, no package to upgrade.
+      </p>
+      <div class="flint-actions">
+        <a class="flint-button flint-button-primary" href={`${base}/docs/installation`}>Install</a>
+        <a class="flint-button flint-button-secondary" href={`${base}/docs/components`}>Components</a>
+      </div>
+      <div class="flint-command">
+        <span class="flint-prompt">$</span>
+        <span>flint-ui add button dialog select</span>
+        <button type="button" class="flint-copy" data-copy="flint-ui add button dialog select">copy</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="flint-facts" aria-label="What is in the box">
+    <div>
+      <span>components</span>
+      <p>21, one file each</p>
+    </div>
+    <div>
+      <span>runtime</span>
+      <p>none — the source is yours</p>
+    </div>
+    <div>
+      <span>renderer</span>
+      <p>GPUI · native</p>
+    </div>
+  </section>
+
+  <section class="flint-section">
+    <h2>How it works</h2>
+    <dl class="flint-points">
+      <dt>flint-ui init</dt>
+      <dd>
+        Copies the theme, <code>mergeStyle</code>, <code>Text</code>, icons and fonts into
+        <code>src/lib/flint</code>. Run once per project.
+      </dd>
+      <dt>flint-ui add button</dt>
+      <dd>
+        Copies <code>components/ui/button.tsx</code> and anything it imports. Existing files are
+        never replaced without <code>--overwrite</code>.
+      </dd>
+      <dt>edit the file</dt>
+      <dd>
+        Styles are objects, variants are a record, states are nested. There is no build step and no
+        provider to mount, so a change is live on the next frame.
+      </dd>
+    </dl>
+  </section>
+
+  <section class="flint-section">
+    <h2>The file you get</h2>
+    <p class="flint-section-lede">
+      One component is one file. This is the whole file <code>flint-ui add button</code> writes, not an
+      excerpt.
+    </p>
+    <div class="flint-split">
+      <div class="flint-split-code">
+        <Code code={buttonSource} lang="tsx" title="components/ui/button.tsx" />
+      </div>
+      <div class="flint-split-copy">
+        <p>
+          Keyboard behaviour comes from the headless primitive in <code>@gpuix/react</code>. The
+          rest is surface: sizes, variants, states.
+        </p>
+        <p>
+          Change <code>SIZES</code> and every size changes. Change <code>variantStyle</code> and the
+          whole kit follows. Nothing regenerates, and there is no CLI to re-run.
+        </p>
+        <a class="flint-inline-link" href={`${base}/docs/components/button`}>Read the Button page →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="flint-section">
+    <h2>Components</h2>
+    <div class="flint-grid">
+      {components.map(([name, meta]) => (
+        <a class="flint-card" href={`${base}/docs/components/${name.toLowerCase()}`}>
+          <span class="flint-card-name">{name}</span>
+          <span class="flint-card-meta">{meta}</span>
+          <span class="flint-card-arrow" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <footer class="flint-footer">
+    <nav class="flint-footer-nav" aria-label="Docs">
+      <a href={`${base}/docs/installation`}>Docs</a>
+      <a href={`${base}/docs/components`}>Components</a>
+      <a href={`${base}/docs/cli`}>CLI</a>
+      <a href={`${base}/docs/registry`}>Registry</a>
+      <a href="https://github.com/wshrx/flint-ui">GitHub</a>
+    </nav>
+    <p>
+      API follows <a href="https://ui.shadcn.com">shadcn/ui</a>; behaviour comes from{" "}
+      <a href="https://gpuix.dev">@gpuix/react</a>. Desktop type is{" "}
+      <a href="https://github.com/DNFDEVS/medeo-font">Medeo</a> (OFL 1.1).
+    </p>
+  </footer>
+
+  <script>
+    document.addEventListener("click", async (event) => {
+      const button = event.target instanceof Element ? event.target.closest("[data-copy]") : null
+      if (!button) return
+      const value = button.getAttribute("data-copy")
+      if (!value) return
+      await navigator.clipboard.writeText(value)
+      const previous = button.textContent
+      button.textContent = "copied"
+      setTimeout(() => (button.textContent = previous), 1200)
+    })
+  </script>
+</div>

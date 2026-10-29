@@ -1,0 +1,43 @@
+name: test
+
+on:
+  push:
+    branches: [main, test]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Linux only on purpose. Entire runs this workflow through Buildkite, and the
+# Buildkite free plan hosts Linux agents only: a `macos-latest` or
+# `windows-latest` label fails the run before any step starts. Those two live in
+# test-macos.yml and test-windows.yml as manual dispatch workflows.
+jobs:
+  test:
+    name: ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: bun install --frozen-lockfile
+
+      - name: Registry
+        run: bun run registry:check
+
+      - name: Contrast
+        run: bun run contrast
+
+      - name: Types
+        run: bun run typecheck
+
+      - name: Tests
+        run: bun test
