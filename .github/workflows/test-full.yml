@@ -1,0 +1,46 @@
+name: test-full
+
+# The full matrix, for GitHub runners only: Buildkite (which runs test.yml for
+# Entire) has no Windows image and hosts macOS only on the Pro plan, so this
+# workflow has no push trigger and is never picked up by that integration.
+#
+# Weekly, plus manual runs when a change touches the native layer.
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: bun install --frozen-lockfile
+      - run: bun run registry:check
+      - run: bun run contrast
+      - run: bun run typecheck
+      - run: bun test
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots-${{ matrix.os }}
+          path: test/__screenshots__
+          if-no-files-found: ignore

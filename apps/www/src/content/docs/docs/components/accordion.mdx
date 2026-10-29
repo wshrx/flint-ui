@@ -1,0 +1,95 @@
+---
+title: Accordion
+description: One panel open at a time; closed panels are not rendered.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/accordion.tsx?raw"
+
+```bash
+flint-ui add accordion
+```
+
+## Usage
+
+```tsx
+import { Accordion, AccordionItem } from "@/components/ui/accordion"
+import { Text } from "@/lib/flint"
+
+<Accordion defaultValue="billing">
+  <AccordionItem value="profile" title="Profile">
+    <Text size="sm" tone="muted">Name, photo and the address people see.</Text>
+  </AccordionItem>
+  <AccordionItem value="billing" title="Billing">
+    <Text size="sm" tone="muted">Plan, invoices and the card on file.</Text>
+  </AccordionItem>
+  <AccordionItem value="danger" title="Delete workspace" disabled>
+    <Text size="sm" tone="muted">Unavailable while the workspace has members.</Text>
+  </AccordionItem>
+</Accordion>
+```
+
+Controlled:
+
+```tsx
+import { useState } from "react"
+
+const [open, setOpen] = useState<string | null>("profile")
+
+<Accordion value={open} onValueChange={setOpen}>…</Accordion>
+```
+
+## Props
+
+`Accordion`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string | null</code></td><td>—</td></tr>
+    <tr><td><code>defaultValue</code></td><td><code>string | null</code></td><td><code>null</code></td></tr>
+    <tr><td><code>onValueChange</code></td><td><code>(value: string | null) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+`AccordionItem`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>title</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Keyboard and accessibility
+
+The trigger spreads `buttonProps` from `@gpuix/react`, so it gets `role="button"`, sits in the tab
+order, fires on Enter at key down and on Space at key up, and sets `aria-expanded`.
+
+There is no `aria-controls`, and the panel has no `id` and no `role="region"`. A closed panel is
+unmounted, so its content is not in the accessibility tree. A disabled trigger leaves the tab order.
+
+## When not to use it
+
+Use headings and always-visible sections when the reader needs to compare two sections; one open at
+a time hides the other. To switch between views at the same level, use `Tabs`.
+
+An accordion holds prose. Do not put a form the user fills in across several panels.
+
+## Notes
+
+A closed panel is unmounted, not hidden: a tall panel costs nothing until it opens, and its state
+is discarded when it closes. Keep anything that must survive in the parent.
+
+Clicking the open item closes it, so `value` is `string | null`. There is one mode: single,
+collapsible. Multiple-open accordions usually mean the content wanted to be a page, not a
+disclosure.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/accordion.tsx" />

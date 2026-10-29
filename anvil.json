@@ -1,0 +1,129 @@
+{
+  "repo": "wshrx/flint-ui",
+  "verify": [
+    {
+      "label": "registry",
+      "run": [
+        "bun",
+        "run",
+        "registry:check"
+      ]
+    },
+    {
+      "label": "contrast",
+      "run": [
+        "bun",
+        "run",
+        "contrast"
+      ]
+    },
+    {
+      "label": "types",
+      "run": [
+        "bun",
+        "run",
+        "typecheck"
+      ]
+    },
+    {
+      "label": "tests",
+      "run": [
+        "bun",
+        "test"
+      ]
+    },
+    {
+      "label": "build",
+      "run": [
+        "bun",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "label": "links",
+      "run": [
+        "bun",
+        "tools/linkcheck.ts"
+      ]
+    },
+    {
+      "label": "kitchen sink",
+      "cwd": "examples/kitchen-sink",
+      "run": [
+        "bunx",
+        "tsc",
+        "-p",
+        "tsconfig.json",
+        "--noEmit"
+      ]
+    }
+  ],
+  "review": {
+    "base": "entire/main",
+    "agent": "reviewer"
+  },
+  "localSmoke": [
+    "bun",
+    "tools/local-smoke.ts"
+  ],
+  "smoke": {
+    "assets": {
+      "linux-x64": "flint-ui-linux-x64",
+      "linux-arm64": "flint-ui-linux-arm64",
+      "darwin-x64": "flint-ui-darwin-x64",
+      "darwin-arm64": "flint-ui-darwin-arm64",
+      "windows-x64": "flint-ui-windows-x64.exe"
+    },
+    "bundle": "flint-ui.mjs",
+    "steps": [
+      [
+        "--version"
+      ],
+      [
+        "init"
+      ],
+      [
+        "add",
+        "button",
+        "accordion",
+        "alert"
+      ]
+    ],
+    "expect": [
+      "src/components/ui/accordion.tsx",
+      "src/components/ui/alert.tsx"
+    ]
+  },
+  "release": {
+    "checks": [
+      [
+        "bun",
+        "scripts/check-version.ts",
+        "{version}"
+      ],
+      [
+        "bun",
+        "scripts/changelog-section.ts",
+        "{version}"
+      ],
+      [
+        "bun",
+        "scripts/check-docs.ts",
+        "{version}"
+      ]
+    ],
+    "build": [
+      "bun",
+      "scripts/build-release.ts"
+    ],
+    "publish": [
+      "bun",
+      "scripts/publish.ts",
+      "origin",
+      "main",
+      "main"
+    ],
+    "tag": "v{version}"
+  }
+}

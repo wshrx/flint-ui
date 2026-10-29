@@ -1,0 +1,85 @@
+---
+title: Versioning
+description: What is versioned, how to pin, and when old docs stay online.
+slug: v0.1.2/docs/versioning
+---
+
+flint has three versions at once, and they answer different questions.
+
+| Version | Answers | Where |
+| --- | --- | --- |
+| **Package** `0.1.2` | which code are we importing? | `@flint-ui/react`, `flint-ui` |
+| **Docs** `0.1.2` / `0.1.1` / `0.1.0` | which documentation matches my release? | the switcher in the header |
+| **Registry snapshot** | what did I copy into my app? | the copied files themselves |
+
+## Archives
+
+Every release is kept as a frozen snapshot. They are pre-release material, not supported branches:
+a bug fixed in a later release is not backported into an archive, and the pages stay as they shipped.
+
+| Version | Shipped | What it is |
+| --- | --- | --- |
+| `0.1.0` | 28 Oct 2026 | first public shape: 12 components, CLI `init`, `add`, `list` |
+| `0.1.1` | 28 Oct 2026 | 18 components, Windows binary, mobile fixes; input selection colour was wrong |
+| current | — | at the root, labelled with the package version |
+
+## Packages
+
+Both packages follow [semver](https://semver.org). There is no npm registry: the release carries
+the tarballs, and the version is part of the file name. While flint is pre-1.0, a minor bump can
+break the API — pin the exact file:
+
+```bash
+bun add https://github.com/wshrx/flint-ui/releases/download/v0.1.2/flint-ui-react-0.1.2.tgz
+```
+
+The CLI reports the release it was built from:
+
+```bash
+flint-ui --version
+# 0.1.2
+```
+
+## Docs
+
+The root (`/docs/…`) documents the current release. Older releases live under `/v0.1.1/…` and
+`/v0.1/…`, each with its own sidebar, search scope and a notice pointing at the current docs. The
+switcher sits in the header next to the theme and labels them by version.
+
+There is no `Next`: the public repository only ships release snapshots, so unreleased docs and
+released docs would be the same pages under two names.
+
+An archive keeps the pages as they shipped. A component page from `0.1.1` therefore lists the 18
+components of that release and has no Source block; the source of that release is in its tarball
+and tag. Fixing a typo in an old archive is allowed; adding a component to it is not.
+
+## Copy-paste
+
+A copied component has no version of its own: it is your file. `flint.json` records a `registry`
+URL, and `init` writes that URL with a release tag. The pin lives in the URL, not in a version
+field.
+
+```json title="flint.json"
+{
+  "$schema": "https://wshrx.github.io/flint-ui/schema/flint.json",
+  "root": "src",
+  "registry": "https://raw.githubusercontent.com/wshrx/flint-ui/v0.1.2/registry"
+}
+```
+
+`flint-ui diff` compares your files with that pinned snapshot, so it reports your edits, not
+newer upstream releases. Pass `--registry` with a later tag to compare against that release.
+It exits non-zero when any file changed or is missing.
+
+## Release checklist
+
+1. Freeze the outgoing docs: `bun scripts/archive-docs.ts v<current>`, then commit the new
+   directory and `src/content/versions/v<current>.json`. The root is about to describe the next
+   release, so this is the last moment the old pages are true.
+2. Bump `packages/cli` and `packages/flint`, and write the `CHANGELOG.md` section as prose. The
+   docs label follows the package version.
+3. Check the sequence: `bun scripts/check-version.ts X.Y.Z`.
+4. Run `bun tools/flint.ts verify`.
+5. Publish: `bun tools/flint.ts release X.Y.Z`. The release workflow builds the
+   binaries, packs the tarballs and uses the changelog section as the release body.
+4. Unless the release only fixes typos, archive the outgoing docs first.

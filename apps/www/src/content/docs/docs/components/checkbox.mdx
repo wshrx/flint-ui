@@ -1,0 +1,65 @@
+---
+title: Checkbox
+description: A checkbox with an inline label, controlled or not, keyboard included.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/checkbox.tsx?raw"
+
+```bash
+flint-ui add checkbox
+```
+
+## Usage
+
+```tsx
+import { useState } from "react"
+import { Checkbox } from "@/components/ui/checkbox"
+
+const [alerts, setAlerts] = useState(true)
+
+<Checkbox checked={alerts} onCheckedChange={setAlerts} label="Email me when a member joins" />
+```
+
+Controlled, uncontrolled and disabled:
+
+```tsx
+const [on, setOn] = useState(false)
+
+<Checkbox defaultChecked label="Uncontrolled" />
+<Checkbox checked={on} onCheckedChange={setOn} label="Controlled" />
+<Checkbox disabled checked label="Locked by policy" />
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>checked</code></td><td><code>boolean</code></td><td>—</td></tr>
+    <tr><td><code>defaultChecked</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>onCheckedChange</code></td><td><code>(checked: boolean) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>label</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+- The whole row is the hit target, including the label.
+- The box is 16×16 with a 4px radius. On a dark surface the unchecked edge uses the `input` token,
+  which clears 3:1; the checked fill is `primary`.
+- There is no indeterminate state yet. When a parent row needs one, add a third visual in the same
+  file rather than a new component.
+
+## Keyboard and accessibility
+
+`Checkbox` is a focusable row with `role="checkbox"`, and Space or Enter toggles it through the
+headless button handlers. The whole row is the hit target, including `label`, and a disabled
+checkbox gets `tabIndex={-1}`. The code sets no `aria-checked`, so the checked state is not
+announced; put the state in the label when it matters. Focus is a 2px `ring` outline offset by 2px.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/checkbox.tsx" />

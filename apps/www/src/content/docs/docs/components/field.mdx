@@ -1,0 +1,66 @@
+---
+title: Field
+description: Label, control, hint and error as one unit.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/field.tsx?raw"
+
+```bash
+flint-ui add field
+```
+
+## Usage
+
+```tsx
+import { Field } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+
+<Field label="Workspace name" hint="Shown to everyone you invite.">
+  <Input placeholder="Alpenglow" />
+</Field>
+
+<Field label="Slug" required error="Already taken.">
+  <Input value="alpenglow" invalid />
+</Field>
+
+<Field label="About" hint="Markdown is not rendered.">
+  <Textarea />
+</Field>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>label</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>hint</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>error</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## When not to use it
+
+A `Field` labels one control. For a group of related controls, use a heading and spacing; one label
+over three inputs describes the first one only.
+
+## Notes
+
+`Field` owns the vertical rhythm: 6 px between the label, the control and the small text, and the
+same 6 px in every field, so two of them in a row line up without a wrapper per column.
+
+The error replaces the hint instead of stacking under it. Two lines of 11 px text below one input
+reads as a defect; one line reads as a message.
+
+The label is a `<Label>`, not a native `<label for>`: GPUI has no `for=`, so the association is
+visual and positional. Keep the control directly under its label; that adjacency is the contract.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/field.tsx" />

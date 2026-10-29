@@ -1,0 +1,141 @@
+---
+title: Combobox
+description: A searchable picker for lists longer than a select should be.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/combobox.tsx?raw"
+
+```bash
+flint-ui add combobox
+```
+
+## Usage
+
+```tsx
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const roles = ["Viewer", "Editor", "Admin", "Billing", "Owner"]
+
+<Combobox items={roles} defaultValue="Editor">
+  <ComboboxInput placeholder="Search roles" />
+  <ComboboxContent>
+    <ComboboxList>
+      {(item) => <ComboboxItem value={item}>{item}</ComboboxItem>}
+    </ComboboxList>
+    <ComboboxEmpty>No role matches that.</ComboboxEmpty>
+  </ComboboxContent>
+</Combobox>
+```
+
+## Props
+
+`Combobox` passes everything to the headless primitive; the useful ones:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>items</code></td><td><code>readonly string[]</code></td><td>—</td></tr>
+    <tr><td><code>value</code> / <code>defaultValue</code></td><td><code>string | string[] | null</code></td><td><code>null</code></td></tr>
+    <tr><td><code>onValueChange</code></td><td><code>(value) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>multiple</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>filter</code></td><td><code>null | (item, query, itemToString) =&gt; boolean</code></td><td>substring match</td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+`ComboboxInput`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>placeholder</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td>inherits from <code>Combobox</code></td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+`ComboboxContent`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>side</code></td><td><code>"top" | "right" | "bottom" | "left"</code></td><td><code>"bottom"</code></td></tr>
+    <tr><td><code>align</code></td><td><code>"start" | "center" | "end"</code></td><td><code>"start"</code></td></tr>
+    <tr><td><code>sideOffset</code></td><td><code>number</code></td><td><code>6</code></td></tr>
+    <tr><td><code>collisionPadding</code></td><td><code>number</code></td><td><code>8</code></td></tr>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+`ComboboxList`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>children</code></td><td><code>ReactNode | (item: string) =&gt; ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+`ComboboxItem`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>children</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>style</code></td><td><code>StateStyle&lt;ComboboxItemState&gt;</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+`ComboboxEmpty`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td><code>"Nothing found"</code></td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Keyboard and accessibility
+
+`ComboboxInput` is a native text input, and the keys come from `@gpuix/react`. Typing filters the
+list case-insensitively, with prefix matches before substring matches.
+
+ArrowDown and ArrowUp move the highlight and wrap around, skipping disabled items. Ctrl+N and
+Ctrl+P do the same. Enter picks the highlighted item and closes the popup, Escape closes it, and
+focus leaving the input closes it.
+
+The highlight is not a cursor: focus stays in the input, and the primitive sets no
+`aria-expanded`, `role="listbox"` or `role="option"`. A screen reader meets a text field and a list
+of plain labels.
+
+## When not to use it
+
+Use it when scanning a select is work: roles, people, time zones. For five fixed options a `Select`
+is faster, and for a free-form value a plain `Input` is honest.
+
+## Notes
+
+`children` of `ComboboxItem` is a string on purpose: it is painted through `<Text>`, so the label
+takes the theme colour instead of GPUI's default black. Put an icon in the item's trailing slot by
+wrapping the primitive directly if you need one.
+
+`ComboboxContent` sets `sideOffset={6}` after the props it spreads, so a `sideOffset` you pass is
+ignored. `side` and `align` do pass through.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/combobox.tsx" />

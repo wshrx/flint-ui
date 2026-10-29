@@ -1,0 +1,47 @@
+name: release-notes
+
+# Release bodies live in CHANGELOG.md, not in GitHub's generated notes. This
+# keeps every release page in sync with the file: it runs when the changelog (or
+# this workflow) changes, and rewrites the notes of every existing tag that has
+# a section. Re-running is safe.
+# No `paths:` filter: the public history is rebuilt as a single root commit on
+# every publish, and GitHub does not compute changed files for that force-push,
+# so a path filter would never match.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+
+      - name: Rewrite release notes from the changelog
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          for tag in $(git tag --list 'v*' --sort=v:refname); do
+            version="${tag#v}"
+            if ! bun scripts/changelog-section.ts "$version" > /tmp/notes.md 2>/dev/null; then
+              echo "skip $tag: no usable changelog section"
+              continue
+            fi
+            if gh release view "$tag" >/dev/null 2>&1; then
+              gh release edit "$tag" --notes-file /tmp/notes.md
+              echo "updated $tag"
+            else
+              echo "skip $tag: no release"
+            fi
+          done

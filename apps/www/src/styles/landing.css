@@ -1,0 +1,712 @@
+/* Landing — shadcn-clean, with a night sky that stays behind the type. */
+
+.flint-landing {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1.5rem 6rem;
+}
+
+.flint-landing a {
+  color: var(--flint-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+
+.flint-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 4.5rem 0 1rem;
+  text-align: center;
+}
+
+
+
+.flint-flame-shape {
+  transform-origin: 400px 350px;
+  animation: flint-flicker 3.4s ease-in-out infinite;
+}
+
+.flint-sun-rays {
+  transform-origin: 400px 210px;
+  animation: flint-turn 90s linear infinite;
+}
+
+.flint-sun-ring {
+  transform-origin: 400px 210px;
+  animation: flint-bloom 7s ease-in-out infinite;
+}
+
+@keyframes flint-flicker {
+  0%, 100% { transform: scale(1) translateY(0); }
+  30% { transform: scale(0.982, 1.03) translateY(-2px); }
+  55% { transform: scale(1.02, 0.985) translateY(1px); }
+  78% { transform: scale(0.99, 1.015) translateY(-1px); }
+}
+
+@keyframes flint-turn {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes flint-bloom {
+  0%, 100% { transform: scale(0.92); opacity: 0.25; }
+  50% { transform: scale(1.12); opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flint-flame-shape,
+  .flint-sun-rays,
+  .flint-sun-ring {
+    animation: none;
+  }
+}
+
+.flint-sky {
+  position: absolute;
+  top: -7rem;
+  left: 50%;
+  width: 1150px;
+  height: 640px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background:
+    radial-gradient(1.4px 1.4px at 14% 26%, rgba(255, 255, 255, 0.5), transparent 60%),
+    radial-gradient(1.2px 1.2px at 22% 48%, rgba(255, 255, 255, 0.35), transparent 60%),
+    radial-gradient(1.6px 1.6px at 31% 18%, rgba(255, 255, 255, 0.45), transparent 60%),
+    radial-gradient(1px 1px at 39% 36%, rgba(255, 255, 255, 0.4), transparent 60%),
+    radial-gradient(1.5px 1.5px at 47% 12%, rgba(255, 255, 255, 0.5), transparent 60%),
+    radial-gradient(1.1px 1.1px at 56% 30%, rgba(255, 255, 255, 0.35), transparent 60%),
+    radial-gradient(1.7px 1.7px at 63% 16%, rgba(255, 255, 255, 0.45), transparent 60%),
+    radial-gradient(1px 1px at 71% 42%, rgba(255, 255, 255, 0.35), transparent 60%),
+    radial-gradient(1.3px 1.3px at 79% 24%, rgba(255, 255, 255, 0.45), transparent 60%),
+    radial-gradient(1.5px 1.5px at 86% 38%, rgba(255, 255, 255, 0.35), transparent 60%),
+    radial-gradient(1.1px 1.1px at 92% 20%, rgba(255, 255, 255, 0.4), transparent 60%),
+    radial-gradient(1px 1px at 8% 44%, rgba(255, 255, 255, 0.3), transparent 60%),
+    radial-gradient(50% 62% at 50% 6%, color-mix(in srgb, var(--flint-accent) 20%, transparent), transparent 72%);
+  mask-image: linear-gradient(to bottom, #000 52%, transparent 100%);
+}
+
+:root[data-theme="light"] .flint-sky {
+  background: radial-gradient(
+    52% 60% at 50% 4%,
+    color-mix(in srgb, var(--flint-accent) 13%, transparent),
+    transparent 70%
+  );
+  opacity: 0.9;
+}
+
+.flint-mark {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 0.4rem;
+}
+
+.flint-mark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.flint-mark .flint-sun {
+  display: none;
+}
+
+:root[data-theme="light"] .flint-mark .flint-flame {
+  display: none;
+}
+
+:root[data-theme="light"] .flint-mark .flint-sun {
+  display: block;
+}
+
+.flint-mark .flint-flame path:first-child {
+  transform-origin: 24px 38px;
+  animation: flint-flicker 3.4s ease-in-out infinite;
+}
+
+.flint-mark .flint-sun {
+  animation: flint-bloom 7s ease-in-out infinite;
+  transform-origin: 24px 24px;
+}
+
+.flint-mark .flint-sun-ring {
+  transform-origin: 24px 24px;
+  animation: flint-bloom 7s ease-in-out infinite;
+}
+
+.flint-hero-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.35rem;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.flint-hero h1 {
+  margin: 0;
+  font-size: clamp(2.7rem, 5vw, 4.1rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  color: var(--flint-text);
+}
+
+.flint-lede {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--flint-muted);
+}
+
+.flint-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.flint-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 2.35rem;
+  padding: 0 1.1rem;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  text-decoration: none !important;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.flint-button-primary {
+  background: var(--flint-accent);
+  color: #04121c !important;
+}
+
+.flint-button-primary:hover {
+  background: var(--flint-accent-strong);
+}
+
+.flint-button-secondary {
+  border-color: var(--flint-border-strong);
+  background: var(--flint-surface);
+  color: var(--flint-text) !important;
+}
+
+.flint-button-secondary:hover {
+  background: var(--flint-raised);
+  border-color: var(--flint-accent);
+}
+
+.flint-command {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: min(100%, 540px);
+  margin: 0.4rem auto 0;
+  padding: 0.62rem 0.7rem 0.62rem 0.9rem;
+  border: 1px solid var(--flint-border);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--flint-surface) 85%, transparent);
+  font-family: var(--sl-font-mono);
+  font-size: 0.74rem;
+  color: var(--flint-text);
+  text-align: left;
+}
+
+.flint-prompt {
+  color: var(--flint-faint);
+}
+
+/* The command wraps inside its own column, so the copy button stays on the
+   first line instead of dropping below it on a 320 px screen. */
+.flint-command > span:not(.flint-prompt) {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+}
+
+.flint-copy {
+  margin-left: auto;
+  padding: 2px 7px;
+  border: 1px solid var(--flint-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--flint-faint);
+  font-family: var(--sl-font-mono);
+  font-size: 0.62rem;
+  cursor: pointer;
+}
+
+.flint-copy:hover {
+  color: var(--flint-text);
+  border-color: var(--flint-accent);
+}
+
+
+
+/* ── Facts ──────────────────────────────────────────────────────────── */
+
+.flint-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 3.5rem;
+  border-top: 1px solid var(--flint-border);
+}
+
+.flint-facts > div {
+  padding: 1.1rem 1.25rem 1.15rem 0;
+  border-right: 1px solid var(--flint-border);
+}
+
+.flint-facts > div:last-child {
+  border-right: 0;
+}
+
+.flint-facts > div + div {
+  padding-left: 1.25rem;
+  margin-top: 0;
+}
+
+.flint-facts span {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--sl-font);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--flint-faint);
+}
+
+.flint-facts p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--flint-text);
+}
+
+/* ── Sections ───────────────────────────────────────────────────────── */
+
+.flint-section {
+  padding: 3.4rem 0;
+  border-top: 1px solid var(--flint-border);
+}
+
+.flint-section h2 {
+  margin: 0 0 1.6rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--flint-text);
+}
+
+.flint-section-lede {
+  max-width: 62ch;
+  margin: -0.9rem 0 1.7rem;
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--flint-muted);
+}
+
+/* ── Definition list ────────────────────────────────────────────────── */
+
+.flint-points {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  margin: 0;
+}
+
+.flint-points dt {
+  padding: 1rem 1rem 1rem 0;
+  border-top: 1px solid var(--flint-border);
+  font-family: var(--sl-font);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--flint-accent);
+}
+
+.flint-points dd {
+  margin: 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--flint-border);
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--flint-muted);
+}
+
+.flint-points code,
+.flint-split-copy code {
+  font-family: var(--sl-font-mono);
+  font-size: 0.82em;
+  color: var(--flint-text);
+}
+
+/* ── Source split ───────────────────────────────────────────────────── */
+
+.flint-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.38fr) minmax(0, 0.62fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.flint-split-code {
+  min-width: 0;
+}
+
+.flint-split-code .expressive-code,
+.flint-split-code .frame {
+  margin: 0;
+  max-width: 100%;
+}
+
+/* A scrollable file view keeps the section balanced against the copy. */
+.flint-split-code .expressive-code code {
+  font-size: 11.5px !important;
+}
+
+.flint-split-code .expressive-code {
+  max-height: 430px;
+  overflow: auto;
+  border-radius: 7px;
+}
+
+.flint-split-code .expressive-code .header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--flint-surface) !important;
+}
+
+.flint-split-code pre {
+  overflow-x: auto !important;
+}
+
+.flint-split-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
+  gap: 1rem;
+  padding-left: 1.75rem;
+  border-left: 1px solid var(--flint-border);
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--flint-muted);
+}
+
+.flint-split-copy p {
+  margin: 0;
+}
+
+.flint-inline-link {
+  font-size: 0.88rem;
+}
+
+/* ── Component cards ────────────────────────────────────────────────── */
+
+.flint-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.flint-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.95rem 1rem 1rem;
+  border: 1px solid var(--flint-border);
+  border-radius: 9px;
+  background: var(--flint-surface);
+  text-decoration: none !important;
+  color: var(--flint-text) !important;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.flint-card:hover {
+  border-color: color-mix(in srgb, var(--flint-accent) 55%, var(--flint-border));
+  background: var(--flint-raised);
+}
+
+.flint-card-name {
+  font-size: 0.93rem;
+  font-weight: 500;
+}
+
+.flint-card-meta {
+  font-family: var(--sl-font-mono);
+  font-size: 0.66rem;
+  color: var(--flint-faint);
+}
+
+.flint-card-arrow {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.95rem;
+  font-family: var(--sl-font-mono);
+  font-size: 0.8rem;
+  color: var(--flint-faint);
+  transition: color 120ms ease, transform 120ms ease;
+}
+
+.flint-card:hover .flint-card-arrow {
+  color: var(--flint-accent);
+  transform: translateX(2px);
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────── */
+
+.flint-footer {
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--flint-border);
+}
+
+.flint-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  margin-bottom: 1.1rem;
+  font-size: 0.8rem;
+}
+
+.flint-footer p {
+  margin: 0;
+  max-width: 68ch;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--flint-faint);
+}
+
+.flint-footer a {
+  color: var(--flint-muted);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+
+@media (max-width: 64rem) {
+  .flint-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .flint-split {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 46rem) {
+  .flint-landing {
+    padding-inline: 1.1rem;
+  }
+
+  .flint-hero {
+    padding-top: 2.6rem;
+  }
+
+  .flint-hero h1 {
+    font-size: clamp(2.3rem, 9vw, 3rem);
+  }
+
+  .flint-sky {
+    height: 460px;
+  }
+
+  .flint-command {
+    gap: 0.45rem;
+    padding-inline: 0.6rem;
+    font-size: 0.72rem;
+  }
+
+  .flint-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .flint-facts > div,
+  .flint-facts > div + div {
+    border-right: 0;
+    border-bottom: 1px solid var(--flint-border);
+    padding-left: 0;
+  }
+
+  .flint-facts > div:last-child {
+    border-bottom: 0;
+  }
+
+  .flint-points {
+    grid-template-columns: 1fr;
+  }
+
+  .flint-points dt {
+    padding-bottom: 0;
+  }
+
+  .flint-points dd {
+    padding-top: 0.35rem;
+  }
+
+  .flint-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The splash template caps content at the docs measure; the landing needs the
+   full canvas, and it must not print the frontmatter description as a strip. */
+.content-panel:has(.flint-landing) {
+  padding: 0;
+}
+
+.content-panel:has(.flint-landing) > .sl-container {
+  max-width: none;
+  padding: 0;
+}
+
+body:has(.flint-landing) main > .content-panel:first-child {
+  display: none;
+}
+
+/* Starlight puts a border on a content panel that follows another one; the
+   landing hides the title panel, so that border would float under the header. */
+.content-panel:has(.flint-landing) {
+  border-top: 0 !important;
+}
+
+/* ── Interactive hero art ───────────────────────────────────────────── */
+
+.flint-art {
+  position: absolute;
+  inset: -2.5rem 0 auto;
+  height: 640px;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, #000 58%, transparent 96%);
+}
+
+.flint-art svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  transform: translate3d(calc(var(--px, 0) * 18px), calc(var(--py, 0) * 10px), 0);
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+.flint-art-light {
+  display: none;
+}
+
+:root[data-theme="light"] .flint-art-dark {
+  display: none;
+}
+
+:root[data-theme="light"] .flint-art-light {
+  display: block;
+  opacity: 0.72;
+}
+
+.flint-art-cursor {
+  position: absolute;
+  left: var(--cx, 50%);
+  top: var(--cy, 32%);
+  width: 360px;
+  height: 360px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--flint-accent) 16%, transparent), transparent 62%);
+  filter: blur(14px);
+  opacity: 0.8;
+}
+
+.fa-star {
+  animation: fa-twinkle 5.5s ease-in-out var(--d) infinite;
+}
+
+.fa-ember {
+  animation: fa-rise var(--dur) linear var(--delay) infinite;
+}
+
+.fa-flame {
+  transform-origin: 600px 580px;
+  animation: fa-flicker 3.6s ease-in-out infinite;
+}
+
+.fa-rays {
+  transform-origin: 600px 240px;
+  animation: fa-turn 150s linear infinite;
+}
+
+.fa-sun-ring {
+  transform-origin: 600px 240px;
+  animation: fa-bloom 9s ease-in-out infinite;
+}
+
+.flint-spark {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--flint-accent);
+  box-shadow: 0 0 10px var(--flint-accent);
+  animation: fa-spark 0.95s ease-out var(--delay) forwards;
+  pointer-events: none;
+}
+
+@keyframes fa-twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes fa-rise {
+  0% { transform: translate(0, 0); opacity: 0; }
+  12% { opacity: 0.9; }
+  100% { transform: translate(var(--drift), -260px); opacity: 0; }
+}
+
+@keyframes fa-flicker {
+  0%, 100% { transform: scale(1) translateY(0); }
+  28% { transform: scale(0.98, 1.035) translateY(-3px); }
+  52% { transform: scale(1.025, 0.98) translateY(2px); }
+  76% { transform: scale(0.99, 1.02) translateY(-1px); }
+}
+
+@keyframes fa-turn {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fa-bloom {
+  0%, 100% { transform: scale(0.9); opacity: 0.22; }
+  50% { transform: scale(1.16); opacity: 0.55; }
+}
+
+@keyframes fa-spark {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fa-star,
+  .fa-ember,
+  .fa-flame,
+  .fa-rays,
+  .fa-sun-ring,
+  .flint-spark {
+    animation: none;
+  }
+
+  .flint-art svg {
+    transition: none;
+  }
+}

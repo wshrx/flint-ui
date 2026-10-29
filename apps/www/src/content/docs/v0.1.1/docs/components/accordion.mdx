@@ -1,0 +1,69 @@
+---
+title: Accordion
+description: One panel open at a time; closed panels are not rendered.
+slug: v0.1.1/docs/components/accordion
+---
+
+
+## Usage
+
+```tsx
+import { Accordion, AccordionItem } from "@/components/ui/accordion"
+import { Text } from "@/lib/flint"
+
+<Accordion defaultValue="billing">
+  <AccordionItem value="profile" title="Profile">
+    <Text size="sm" tone="muted">Name, photo and the address people see.</Text>
+  </AccordionItem>
+  <AccordionItem value="billing" title="Billing">
+    <Text size="sm" tone="muted">Plan, invoices and the card on file.</Text>
+  </AccordionItem>
+  <AccordionItem value="danger" title="Delete workspace" disabled>
+    <Text size="sm" tone="muted">Unavailable while the workspace has members.</Text>
+  </AccordionItem>
+</Accordion>
+```
+
+Controlled:
+
+```tsx
+const [open, setOpen] = useState<string | null>("profile")
+
+<Accordion value={open} onValueChange={setOpen}>…</Accordion>
+```
+
+## Props
+
+`Accordion`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string | null</code></td><td>—</td></tr>
+    <tr><td><code>defaultValue</code></td><td><code>string | null</code></td><td><code>null</code></td></tr>
+    <tr><td><code>onValueChange</code></td><td><code>(value: string | null) =&gt; void</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+`AccordionItem`:
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>value</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>title</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+A closed panel is unmounted, not hidden: a tall panel costs nothing until it opens, and its state
+is discarded when it closes. Keep anything that must survive in the parent.
+
+The trigger spreads `buttonProps`, so it is a tab stop with `role="button"`, Enter fires on key
+down and Space on key up. Clicking the open item closes it, so `value` is `string | null`.
+
+There is one mode: single, collapsible. Multiple-open accordions usually mean the content wanted
+to be a page, not a disclosure.
+

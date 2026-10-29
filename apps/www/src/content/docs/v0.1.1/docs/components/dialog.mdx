@@ -1,0 +1,70 @@
+---
+title: Dialog
+description: A portal, a backdrop and a surface that traps focus and gives it back.
+slug: v0.1.1/docs/components/dialog
+---
+
+
+## Usage
+
+```tsx
+import {
+  Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter,
+  DialogHeading, DialogBody,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Invite</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogHeading>Invite a member</DialogHeading>
+      <DialogBody>They get a link that expires in 48 hours.</DialogBody>
+    </DialogHeader>
+    <Input placeholder="name@studio.com" autoFocus />
+    <DialogFooter>
+      <Button variant="ghost">Cancel</Button>
+      <Button>Send invite</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## What the base already does
+
+`DialogContent` is a composition of three primitives from `@gpuix/react`, and none of them are
+reimplemented here:
+
+- **Portal** paints a full-window layer above `<virtual-list>` and everything else.
+- **Backdrop** dims the window and closes on a press, unless `disablePointerDismissal` is set.
+- **Popup** moves focus in on open, returns it to the trigger on close, keeps Tab inside while
+  `modal` is true, and closes on Escape.
+
+flint adds the surface, the padding, the shadow and the close control.
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>open</code> / <code>defaultOpen</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>onOpenChange</code></td><td><code>(open: boolean) =&gt; void</code></td><td>—</td></tr>
+    <tr><td><code>modal</code></td><td><code>boolean</code></td><td><code>true</code></td></tr>
+    <tr><td><code>disablePointerDismissal</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+    <tr><td><code>showClose</code> <span>on Content</span></td><td><code>boolean</code></td><td><code>true</code></td></tr>
+    <tr><td><code>initialFocus</code> / <code>finalFocus</code></td><td><code>FocusTarget</code></td><td>the popup / the trigger</td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+- The dialog is 420px wide with `maxWidth: "90%"`. On a narrow window it becomes a sheet-sized
+  surface rather than overflowing.
+- Long content scrolls inside the popup only if you give the popup a `maxHeight` and
+  `overflowY: "scroll"` through `style`. The default is to grow.
+- Do not put another `Dialog` inside a dialog. Use a `Select`; its menu is painted above the dialog
+  layer on purpose.
+

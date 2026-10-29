@@ -1,0 +1,37 @@
+---
+title: Skeleton
+description: A placeholder block that holds the layout while data arrives.
+slug: v0.1.1/docs/components/skeleton
+---
+
+
+## Usage
+
+```tsx
+import { Skeleton } from "@/components/ui/skeleton"
+
+<Skeleton height={16} width={220} />
+<Skeleton height={12} />
+<Skeleton width={32} height={32} radius={999} />
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>width</code></td><td><code>number | string</code></td><td><code>"100%"</code></td></tr>
+    <tr><td><code>height</code></td><td><code>number</code></td><td><code>12</code></td></tr>
+    <tr><td><code>radius</code></td><td><code>number</code></td><td><code>6</code></td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+There is no shimmer and no pulse. A placeholder that moves reads as content that is about to
+appear; two of them next to each other read as a broken layout.
+
+Match the block to the real thing: 12 px for a line of body text, 32 px for a control, the same
+radius as the surface it replaces. `aria-hidden` is set, so a screen reader skips it — put the
+loading state in the surrounding region instead.
+

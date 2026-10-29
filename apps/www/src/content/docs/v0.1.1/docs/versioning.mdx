@@ -1,0 +1,52 @@
+---
+title: Versioning
+description: What is versioned, how to pin, and when old docs stay online.
+slug: v0.1.1/docs/versioning
+---
+
+flint has three versions at once, and they answer different questions.
+
+| Version | Answers | Where |
+| --- | --- | --- |
+| **Package** `0.1.1` | which code are we importing? | `@flint-ui/react`, `flint-ui` |
+| **Docs** `Next` / `v0.1` | which documentation matches my release? | the switcher in the header |
+| **Registry snapshot** | what did I copy into my app? | the copied files themselves |
+
+## Packages
+
+Both packages follow [semver](https://semver.org). There is no npm registry: the release carries
+the tarballs, and the version is part of the file name. While flint is pre-1.0, a minor bump can
+break the API — pin the exact file:
+
+```bash
+bun add https://github.com/wshrx/flint-ui/releases/download/v0.1.1/flint-ui-react-0.1.1.tgz
+```
+
+The CLI reports the release it was built from:
+
+```bash
+flint-ui --version
+# 0.1.1
+```
+
+## Docs
+
+`Next` is the working documentation on `main`. Archived versions live at `/v0.1/…`,
+keep their own sidebar and search scope, and carry a notice pointing at the latest
+docs. The switcher sits in the header next to the theme.
+
+A version is archived when a release changes the public API — not on every release.
+
+## Copy-paste
+
+A copied component has no version of its own: it is your file. The registry records the
+version it came from in `flint.json`, so a future `flint-ui diff` can show what changed
+between your copy and the current registry. That command is not implemented yet; until
+then, the file is the source of truth.
+
+## Release checklist
+
+1. Add a changeset: `bun run changeset`.
+2. Merge the version PR: `bun run version` bumps manifests and writes changelogs.
+3. Publish: `bun run release` (CI does this on `main`).
+4. If the public API changed, archive the docs version and start `Next` from it.

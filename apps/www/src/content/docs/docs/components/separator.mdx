@@ -1,0 +1,66 @@
+---
+title: Separator
+description: A hairline between blocks, with an optional label.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "../../../../../../../registry/components/ui/separator.tsx?raw"
+
+```bash
+flint-ui add separator
+```
+
+## Usage
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+import { Text } from "@/lib/flint"
+
+<Separator />
+
+<Separator label="or" />
+
+<div style={{ display: "flex", alignItems: "center", gap: 12, height: 24 }}>
+  <Text>Left</Text>
+  <Separator orientation="vertical" />
+  <Text>Right</Text>
+</div>
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>orientation</code></td><td><code>"horizontal" | "vertical"</code></td><td><code>"horizontal"</code></td></tr>
+    <tr><td><code>label</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Keyboard and accessibility
+
+The unlabelled separator is a `div` with `role="separator"`, so a screen reader is told there is a
+boundary. It is not focusable and has no keys.
+
+A separator with `label` returns a flex row instead, so it carries no role. The label is read as
+plain text between two lines.
+
+## When not to use it
+
+Use a heading to split a long page; a line between every section is noise. Inside a list, spacing
+or a `Card` separates rows without another element. Reach for a separator when two blocks would
+otherwise touch.
+
+## Notes
+
+A horizontal separator is one pixel of `border` and takes the full width. The vertical one
+stretches to the height of its row, so it needs a parent with a height. Inside a line of text it
+collapses to nothing.
+
+`label` only applies horizontally and renders at 11 px in `mutedForeground`. It is a section break,
+not a heading: do not put a label on a separator that already sits under a heading.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/separator.tsx" />

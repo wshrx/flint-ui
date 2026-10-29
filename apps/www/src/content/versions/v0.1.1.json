@@ -1,0 +1,114 @@
+{
+  "sidebar": [
+    {
+      "label": "Start here",
+      "items": [
+        {
+          "label": "Installation",
+          "slug": "docs/installation"
+        },
+        {
+          "label": "Theming",
+          "slug": "docs/theming"
+        },
+        {
+          "label": "CLI",
+          "slug": "docs/cli"
+        },
+        {
+          "label": "Registry",
+          "slug": "docs/registry"
+        },
+        {
+          "label": "License",
+          "slug": "docs/license"
+        }
+      ]
+    },
+    {
+      "label": "Components",
+      "items": [
+        {
+          "label": "All components",
+          "slug": "docs/components"
+        },
+        {
+          "label": "Accordion",
+          "slug": "docs/components/accordion"
+        },
+        {
+          "label": "Alert",
+          "slug": "docs/components/alert"
+        },
+        {
+          "label": "Avatar",
+          "slug": "docs/components/avatar"
+        },
+        {
+          "label": "Badge",
+          "slug": "docs/components/badge"
+        },
+        {
+          "label": "Button",
+          "slug": "docs/components/button"
+        },
+        {
+          "label": "Card",
+          "slug": "docs/components/card"
+        },
+        {
+          "label": "Checkbox",
+          "slug": "docs/components/checkbox"
+        },
+        {
+          "label": "Dialog",
+          "slug": "docs/components/dialog"
+        },
+        {
+          "label": "Input",
+          "slug": "docs/components/input"
+        },
+        {
+          "label": "Label",
+          "slug": "docs/components/label"
+        },
+        {
+          "label": "Progress",
+          "slug": "docs/components/progress"
+        },
+        {
+          "label": "Select",
+          "slug": "docs/components/select"
+        },
+        {
+          "label": "Separator",
+          "slug": "docs/components/separator"
+        },
+        {
+          "label": "Skeleton",
+          "slug": "docs/components/skeleton"
+        },
+        {
+          "label": "Switch",
+          "slug": "docs/components/switch"
+        },
+        {
+          "label": "Tabs",
+          "slug": "docs/components/tabs"
+        },
+        {
+          "label": "Textarea",
+          "slug": "docs/components/textarea"
+        },
+        {
+          "label": "Tooltip",
+          "slug": "docs/components/tooltip"
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    "",
+    "docs/versioning"
+  ]
+}

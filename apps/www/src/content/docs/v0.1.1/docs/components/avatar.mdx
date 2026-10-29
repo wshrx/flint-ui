@@ -1,0 +1,38 @@
+---
+title: Avatar
+description: A photo or initials in a circle.
+slug: v0.1.1/docs/components/avatar
+---
+
+
+## Usage
+
+```tsx
+import { Avatar } from "@/components/ui/avatar"
+
+<Avatar src="./photos/ada.png" name="Ada Lovelace" />
+<Avatar name="Grace Hopper" />
+<Avatar name="Grace Hopper" size={24} />
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>src</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>name</code></td><td><code>string</code></td><td><code>""</code></td></tr>
+    <tr><td><code>alt</code></td><td><code>string</code></td><td><code>name</code></td></tr>
+    <tr><td><code>size</code></td><td><code>number</code></td><td><code>32</code></td></tr>
+  </tbody>
+</table>
+
+## Notes
+
+`src` takes a filesystem path, a data URL or an http(s) URL, and the image is cropped with
+`objectFit="cover"` — a portrait never squashes into the circle. Without `src` the first letters of
+the first two words are painted on the muted surface, which is the normal state, not a failure.
+
+The fallback is upper-cased and capped at two characters. A single word gives its first two
+letters; nothing gives `?`.
+

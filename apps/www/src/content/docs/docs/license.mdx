@@ -1,0 +1,36 @@
+---
+title: License
+description: MIT for flint, and the licenses of everything it touches.
+---
+
+flint is released under the [MIT license](https://github.com/wshrx/flint-ui/blob/main/LICENSE).
+
+That choice is deliberate: the registry is copied into your repository, so the license has to
+be the least interesting thing about the files. MIT asks for nothing beyond keeping the notice:
+no NOTICE file in your build, no per-file headers, no copyleft reaching into your app.
+
+## What flint touches
+
+| Part | License | How it reaches you |
+| --- | --- | --- |
+| flint registry and packages | MIT | copied into your app, or installed |
+| [GPUIX](https://gpuix.dev) (`@gpuix/react`) | Apache-2.0 | peer dependency, installed by you |
+| Medeo Sans / Mono / Pixel | SIL OFL 1.1 | font files in `registry/fonts` |
+| [Lucide](https://lucide.dev) icons | ISC | SVG paths embedded as strings |
+
+GPUIX keeps its own license. flint imports its public API (`Props`, `StyleDesc`, `buttonProps`,
+the headless primitives) and copies none of its source, so Apache-2.0 obligations stay with
+GPUIX and its own distribution. MIT and Apache-2.0 are compatible in this direction.
+
+The Medeo fonts are the one exception to "no attribution needed": OFL requires the license text
+to travel with the font files, and `registry/fonts/OFL.txt` is copied along with them. Do not
+rename the fonts.
+
+Full texts and copyright lines: [`NOTICE`](https://github.com/wshrx/flint-ui/blob/main/NOTICE).
+
+## Why not Apache-2.0
+
+Apache-2.0 adds an explicit patent grant and a trademark clause. Both are useful for a
+long-lived library with corporate contributors; neither is worth the extra ceremony for a
+registry whose files are meant to be edited inside your app. If flint ever vendors GPUIX code
+instead of importing it, those files will carry Apache-2.0 headers and this page will say so.
