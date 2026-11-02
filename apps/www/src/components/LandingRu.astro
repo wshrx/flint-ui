@@ -1,0 +1,129 @@
+---
+import { Code } from "@astrojs/starlight/components"
+import Gallery from "./Gallery.astro"
+import Preview from "./Preview.astro"
+import buttonSource from "../../../../registry/components/ui/button.tsx?raw"
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+---
+
+<div class="flint-landing">
+  <section class="flint-hero flint-hero-split">
+    <div class="flint-hero-copy">
+      <a class="flint-pill" href={`${base}/ru/docs/versioning`}>
+        <span class="flint-pill-dot" aria-hidden="true"></span>
+        0.1.1 · 24 компонента · native
+      </a>
+      <h1>Компоненты для <span class="flint-title-accent">GPUIX</span>.</h1>
+      <p class="flint-lede">
+        Двадцать четыре компонента в виде исходников. Скопируйте файл в приложение, поменяйте
+        значения, оставьте себе. Без CSS, без рантайма и без пакета, который нужно обновлять.
+      </p>
+      <div class="flint-actions">
+        <a class="flint-button flint-button-primary" href={`${base}/ru/docs/installation`}>Начать</a>
+        <a class="flint-button flint-button-secondary" href={`${base}/ru/docs/components`}>Компоненты</a>
+      </div>
+      <div class="flint-command">
+        <span class="flint-prompt">$</span>
+        <span>flint-ui add button dialog select</span>
+        <button type="button" class="flint-copy" data-copy="flint-ui add button dialog select">copy</button>
+      </div>
+    </div>
+    <div class="flint-hero-panel" aria-label="Превью компонентов">
+      <div class="flint-hero-panel-head"><span>Поверхность продукта</span><span>токены · не скриншот</span></div>
+      <Preview name="window-header" compact />
+      <Preview name="card" compact />
+      <Preview name="tabs" compact />
+    </div>
+  </section>
+
+  <Gallery lang="ru" />
+
+  <section class="flint-facts" aria-label="Что внутри">
+    <div>
+      <span>компоненты</span>
+      <p>24, по файлу на каждый</p>
+    </div>
+    <div>
+      <span>рантайм</span>
+      <p>нет — исходник ваш</p>
+    </div>
+    <div>
+      <span>рендерер</span>
+      <p>GPUI · нативный</p>
+    </div>
+  </section>
+
+  <section class="flint-section">
+    <h2>Как это работает</h2>
+    <dl class="flint-points">
+      <dt>flint-ui init</dt>
+      <dd>
+        Копирует тему, <code>mergeStyle</code>, <code>Text</code>, иконки и шрифты в
+        <code>src/lib/flint</code>. Один раз на проект.
+      </dd>
+      <dt>flint-ui add button</dt>
+      <dd>
+        Копирует <code>components/ui/button.tsx</code> и всё, что он импортирует. Существующие
+        файлы не перезаписываются без <code>--overwrite</code>.
+      </dd>
+      <dt>правьте файл</dt>
+      <dd>
+        Стили — объекты, варианты — запись, состояния вложены. Нет шага сборки и провайдера, поэтому
+        изменение видно на следующем кадре.
+      </dd>
+    </dl>
+  </section>
+
+  <section class="flint-section">
+    <h2>Файл, который вы получаете</h2>
+    <p class="flint-section-lede">
+      Один компонент — один файл. Это целиком тот файл, который пишет <code>flint-ui add button</code>,
+      а не выдержка.
+    </p>
+    <div class="flint-split">
+      <div class="flint-split-code">
+        <Code code={buttonSource} lang="tsx" title="components/ui/button.tsx" />
+      </div>
+      <div class="flint-split-copy">
+        <p>
+          Клавиатурное поведение приходит из headless-примитива в{" "}
+          <code>@gpuix/react</code>. Остальное — поверхность: размеры, варианты, состояния.
+        </p>
+        <p>
+          Измените <code>SIZES</code> — изменится каждый размер. Измените <code>variantStyle</code> —
+          за ним последует весь кит. Ничего не перегенерируется, CLI перезапускать не нужно.
+        </p>
+        <a class="flint-inline-link" href={`${base}/ru/docs/components/button`}>Страница Button →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="flint-footer">
+    <nav class="flint-footer-nav" aria-label="Документация">
+      <a href={`${base}/docs/installation`}>Документация</a>
+      <a href={`${base}/docs/components`}>Компоненты</a>
+      <a href={`${base}/docs/cli`}>CLI</a>
+      <a href={`${base}/docs/registry`}>Реестр</a>
+      <a href="https://github.com/wshrx/flint-ui">GitHub</a>
+    </nav>
+    <p>
+      API повторяет <a href="https://ui.shadcn.com">shadcn/ui</a>, поведение даёт{" "}
+      <a href="https://gpuix.dev">@gpuix/react</a>. Шрифт десктопа —{" "}
+      <a href="https://github.com/DNFDEVS/medeo-font">Medeo</a> (OFL 1.1).
+    </p>
+  </footer>
+
+  <script>
+    document.addEventListener("click", async (event) => {
+      const button = event.target instanceof Element ? event.target.closest("[data-copy]") : null
+      if (!button) return
+      const value = button.getAttribute("data-copy")
+      if (!value) return
+      await navigator.clipboard.writeText(value)
+      const previous = button.textContent
+      button.textContent = "copied"
+      setTimeout(() => (button.textContent = previous), 1200)
+    })
+  </script>
+</div>

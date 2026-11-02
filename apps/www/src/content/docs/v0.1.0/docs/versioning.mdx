@@ -1,0 +1,66 @@
+---
+title: Versioning
+description: One version for the CLI, the package and the docs, and how a release is cut.
+slug: v0.1.0/docs/versioning
+---
+
+flint uses one version for the CLI, `@flint-ui/react` and the docs. The current release is `0.1.0`.
+A minor bump may change the component API: the source is copied into your app, so update the files
+you keep, not a dependency lockfile.
+
+## What the version means
+
+| Number | Answers | Where it lives |
+| --- | --- | --- |
+| `0.1.0` | which source and CLI are these? | `packages/cli/package.json`, `packages/flint/package.json`, the release tag |
+| docs | which documentation matches my release? | the root of the site for the current release, an archive under `/vX.Y.Z/` for an older one |
+
+The root of the site always describes the current release. There is no `Next` branch: the public
+repository only ships release snapshots, so unreleased docs and released docs would be the same
+pages under two names.
+
+## Packages
+
+`@flint-ui/react` is built from the same `registry/` directory the CLI copies. The release tarball
+is attached to the GitHub release, not published to npm:
+
+```bash
+bun add https://github.com/wshrx/flint-ui/releases/download/v0.1.0/flint-ui-react-0.1.0.tgz
+```
+
+The default install is still `flint-ui add`. The package is for apps that prefer one import and no
+copied files.
+
+## Pinning a registry
+
+`flint.json` records the registry URL. `flint-ui init` writes the tag that matches the CLI:
+
+```json title="flint.json"
+{
+  "$schema": "https://wshrx.github.io/flint-ui/schema/flint.json",
+  "root": "src",
+  "registry": "https://raw.githubusercontent.com/wshrx/flint-ui/v0.1.0/registry"
+}
+```
+
+`flint-ui diff` compares your files with that pinned snapshot, so it reports your edits, not newer
+upstream releases. Pass `--registry` with a later tag to compare against that release.
+
+## Docs archives
+
+An archive keeps the page text and adds a version notice. It removes the Source block because the
+release's component file is not in the working tree. Fixing a typo in an old archive is allowed;
+adding a component to it is not.
+
+At `0.1.0` there are no older releases to archive. The first archive appears when `0.1.1` or a
+later release is prepared.
+
+## Release checklist
+
+1. Freeze the outgoing docs from its tag:
+   `bun scripts/archive-docs.ts v<current> --from v<current>`.
+2. Bump `packages/cli` and `packages/flint`, and write the `CHANGELOG.md` section as prose.
+3. Run `bun scripts/check-version.ts X.Y.Z` and `bun scripts/check-docs.ts X.Y.Z`.
+4. Run `bun run verify`.
+5. Publish with `bun tools/anvil.ts release X.Y.Z`. The public workflow builds the binaries, packs
+   the tarballs and uses the changelog section as the release body.

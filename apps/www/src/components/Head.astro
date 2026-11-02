@@ -1,0 +1,40 @@
+---
+import ClientRouter from "astro/components/ClientRouter.astro"
+
+const { head } = Astro.locals.starlightRoute
+---
+
+{head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
+<ClientRouter />
+
+{/*
+  Starlight labels the search button "Search" while the same button shows the
+  `Ctrl K` shortcut as visible text. Axe reports that as a label/content
+  mismatch, and the shortcut is invisible to a screen reader. Move the label
+  into a visually hidden span so the accessible name contains both the word and
+  the keys, and keep a name when the visible text is hidden on mobile.
+*/}
+<script is:inline>
+  const labelSearch = () => {
+    for (const button of document.querySelectorAll("button[data-open-modal]")) {
+      if (!button.hasAttribute("aria-label")) continue
+      const label = document.createElement("span")
+      label.textContent = "Search"
+      label.style.cssText =
+        "position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"
+      button.removeAttribute("aria-label")
+      button.prepend(label)
+    }
+  }
+  const focusScrollableCode = () => {
+    for (const pre of document.querySelectorAll("pre")) {
+      if (pre.scrollWidth > pre.clientWidth && !pre.hasAttribute("tabindex")) pre.tabIndex = 0
+    }
+  }
+  const enhance = () => {
+    labelSearch()
+    focusScrollableCode()
+  }
+  document.addEventListener("DOMContentLoaded", enhance)
+  document.addEventListener("astro:page-load", enhance)
+</script>

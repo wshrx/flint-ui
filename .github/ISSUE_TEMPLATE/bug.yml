@@ -1,0 +1,47 @@
+name: Bug report
+description: Something in the registry, the CLI or the docs is wrong.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read `docs/gpuix-contract.md` first: some behaviour is a GPUIX limit, not a flint bug.
+  - type: input
+    id: version
+    attributes:
+      label: flint-ui version
+      description: Output of `flint-ui --version`.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [CLI, Component, Docs, Release asset]
+    validations:
+      required: true
+  - type: input
+    id: component
+    attributes:
+      label: Component or command
+      placeholder: combobox, or `flint-ui add dialog`
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: Include the exact output and the smallest reproduction.
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      placeholder: macOS 15 arm64, Windows 11 x64, Ubuntu 24.04
+    validations:
+      required: true

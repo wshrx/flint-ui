@@ -1,0 +1,81 @@
+---
+title: Example app
+description: The kitchen sink, a real GPUIX window that uses all twenty-four components.
+---
+
+import Preview from "@docs/Preview.astro"
+
+The kitchen sink is one real window, not a gallery. It is a workspace settings
+screen with General, Members and Billing tabs, and it uses every component in the
+registry.
+
+<div class="flint-example">
+  <div class="flint-example-bar">
+    <span class="flint-example-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>flint - kitchen sink</span>
+  </div>
+  <div class="flint-example-body">
+    <div class="flint-example-nav">
+      <span class="flint-example-brand">flint</span>
+      <span class="flint-example-link flint-example-active">General</span>
+      <span class="flint-example-link">Members</span>
+      <span class="flint-example-link">Billing</span>
+    </div>
+    <div class="flint-example-main">
+      <Preview name="window-header" compact />
+      <Preview name="tabs" compact />
+      <Preview name="card" compact />
+    </div>
+  </div>
+</div>
+
+## Run it
+
+```bash
+cd examples/kitchen-sink
+bun app.tsx
+```
+
+Or with hot reload:
+
+```bash
+cd examples/kitchen-sink
+bun run dev
+```
+
+The app is 960 × 640 by default. It needs a display and the GPUIX system
+libraries. Use `THEME=light`, `FLINT_TAB=members`, `HEIGHT=800` or
+`GPUIX_BACKGROUND=1` to change the start state.
+
+## Window chrome
+
+The example keeps native chrome by default. Windows uses the system titlebar.
+On Wayland it depends on the compositor: GNOME/Mutter has no server-side
+decorations, while sway, labwc and KDE do. `appId` groups the window for window
+rules. On macOS, `FLINT_TITLEBAR_TRANSPARENT=1` hides the native titlebar and
+gives `WindowHeader` the 78 px inset the traffic lights need.
+
+Do not hide the titlebar on Windows. GPUIX 0.11 removes the caption but has no
+`window_control_area` or move call there, so the result cannot be dragged or
+closed. The header is the first app row, not a custom titlebar.
+
+## What it covers
+
+| Surface | Components |
+| --- | --- |
+| Window | `WindowHeader`, `Kbd`, theme and Docs actions |
+| General | `Field`, `Input`, `Textarea`, `Select`, `Checkbox`, `Switch`, `Card` |
+| Members | `Combobox`, `Avatar`, `Badge`, `Tooltip`, `Dialog`, `ContextMenu` |
+| Health | `Alert`, `Progress`, `Separator`, `Skeleton`, `Accordion`, `Dropzone` |
+| Billing | `Card` in the outline variant, inputs and buttons |
+| Tabs | `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent` |
+
+The source is in
+[`examples/kitchen-sink/app.tsx`](https://github.com/wshrx/flint-ui/blob/main/examples/kitchen-sink/app.tsx).
+The README next to it lists every environment flag.
+
+## Why this screen
+
+A settings page forces the components to share one grid, one type scale and one
+palette. A gallery can hide a bad focus ring or a control that only works alone;
+this screen cannot. If a component looks wrong here, it is not ready.

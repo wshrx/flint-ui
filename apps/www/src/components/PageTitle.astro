@@ -1,0 +1,28 @@
+---
+import { existsSync, readFileSync } from "node:fs"
+import { join } from "node:path"
+import VersionNotice from "./LegacyNotice.astro"
+
+const { title, description } = Astro.locals.starlightRoute.entry.data
+const packagePath = [
+  join(process.cwd(), "../../packages/flint/package.json"),
+  join(process.cwd(), "packages/flint/package.json"),
+].find((path) => existsSync(path))
+if (!packagePath) throw new Error("cannot find packages/flint/package.json")
+const pkg = JSON.parse(readFileSync(packagePath, "utf8")) as { version: string }
+const path = Astro.url.pathname
+const isComponent = /\/docs\/components\/[^/]+\/?$/.test(path) && !path.endsWith("/components/")
+const kicker = isComponent ? "Component" : "Documentation"
+---
+
+<header class="flint-docs-hero">
+  <div class="flint-version-notice"><VersionNotice /></div>
+  <p class="flint-docs-kicker"><span class="flint-docs-kicker-dot" aria-hidden="true"></span>{kicker}</p>
+  <h1 id="_top">{title}</h1>
+  {description && <p class="flint-page-description">{description}</p>}
+  <div class="flint-docs-meta">
+    <span>flint {pkg.version}</span>
+    <span>GPUIX 0.11</span>
+    <span>MIT</span>
+  </div>
+</header>

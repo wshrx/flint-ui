@@ -1,0 +1,91 @@
+---
+title: WindowHeader
+description: The in-app strip under the native titlebar, aware of safe-area insets.
+---
+
+import { Code } from "@astrojs/starlight/components"
+import source from "@/registry/components/ui/window-header.tsx?raw"
+import Preview from "@docs/Preview.astro"
+
+```bash
+flint-ui add window-header
+```
+
+<Preview name="window-header" />
+
+## Usage
+
+Under the native titlebar:
+
+```tsx
+import { WindowHeader } from "@/components/ui/window-header"
+import { Button } from "@/components/ui/button"
+
+<WindowHeader
+  title="Alpenglow"
+  trailing={<Button size="sm" variant="ghost">Settings</Button>}
+/>
+```
+
+On macOS with a transparent titlebar, leave room for the traffic lights:
+
+```tsx
+render(<App />, { title: "Alpenglow", titlebarTransparent: true })
+
+<WindowHeader title="Alpenglow" leadingInset={78} />
+```
+
+Set an `appId` so Wayland and X11 can group the window and apply window rules:
+
+```tsx
+render(<App />, { title: "Alpenglow", appId: "dev.example.alpenglow" })
+```
+
+## Props
+
+<table class="flint-props">
+  <thead><tr><th>Prop</th><th>Type</th><th>Default</th></tr></thead>
+  <tbody>
+    <tr><td><code>title</code></td><td><code>string</code></td><td>—</td></tr>
+    <tr><td><code>leading</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>trailing</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+    <tr><td><code>leadingInset</code></td><td><code>number</code></td><td><code>0</code></td></tr>
+    <tr><td><code>height</code></td><td><code>number</code></td><td><code>44</code></td></tr>
+    <tr><td><code>border</code></td><td><code>boolean</code></td><td><code>true</code></td></tr>
+    <tr><td><code>style</code></td><td><code>Style</code></td><td>—</td></tr>
+  </tbody>
+</table>
+
+## Keyboard and accessibility
+
+The header is layout, not a control: no role, no tab stop. The title is text; the buttons you pass in
+`leading` and `trailing` keep their own names and key handling. Do not make the whole strip
+clickable: a window header that swallows clicks is a trap.
+
+## Platform notes
+
+GPUIX 0.11 exposes window actions (`minimizeWindow`, `zoomWindow`, `toggleFullscreen`) but not window
+dragging or closing. A custom titlebar with drag and a close button is not possible, and on Wayland
+client-side decorations belong to the compositor. This component is the part that is portable: a
+safe-area aware strip with slots.
+
+- macOS: pair with `titlebarTransparent: true` and `leadingInset={78}`; native traffic lights keep
+  close, minimize and zoom, and the native titlebar region still moves the window.
+- Windows: keep the native titlebar; this is the first row of the app. Do not set
+  `titlebarTransparent: true` here. GPUIX 0.11 removes the caption but does not expose
+  `window_control_area` or a move call on the Windows backend, so the window cannot be dragged or
+  closed from the custom bar.
+- Wayland: it depends on the compositor. GNOME/Mutter implements no server-side decorations, so an
+  app must draw its own bar, but GPUIX 0.11 cannot start a move from it. sway, labwc and KDE do
+  provide decorations. Set `appId` so the window can be grouped and matched by rules.
+- X11: the window manager draws the decorations; `appId` becomes `WM_CLASS`. `layerShell` is for
+  bars and overlays, not for the main window.
+
+## When not to use it
+
+For a page heading inside a tab or a card, use `Text` and `Separator`. The header is for the window
+frame, not for every section.
+
+## Source
+
+<Code code={source} lang="tsx" title="components/ui/window-header.tsx" />
