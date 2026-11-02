@@ -1,0 +1,45 @@
+---
+import Preview from "./Preview.astro"
+import { COMPONENTS } from "./previews"
+
+interface Props {
+  lang?: "en" | "ru"
+}
+
+const { lang = "en" } = Astro.props
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+const copy =
+  lang === "ru"
+    ? {
+        kicker: "24 компонента",
+        title: "Все поверхности в одном месте.",
+        lede: "Каждый компонент показан до того, как вы скопируете файл. Нажмите на карточку, чтобы открыть страницу с исходником.",
+      }
+    : {
+        kicker: "24 components",
+        title: "Every surface, in one place.",
+        lede: "Each component is shown before you copy the file. Open a card for the source, props and keyboard notes.",
+      }
+---
+
+<section class="flint-gallery" aria-labelledby="flint-gallery-title">
+  <div class="flint-gallery-head">
+    <p class="flint-kicker">{copy.kicker}</p>
+    <h2 id="flint-gallery-title">{copy.title}</h2>
+    <p class="flint-gallery-lede">{copy.lede}</p>
+  </div>
+
+  <div class="flint-gallery-grid">
+    {COMPONENTS.map((component) => (
+      <a class="flint-gallery-card" href={`${base}/docs/components/${component.name}`}>
+        <div class="flint-gallery-preview">
+          <Preview name={component.name} compact />
+        </div>
+        <div class="flint-gallery-meta">
+          <span>{component.title}</span>
+          <span>{component.meta}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>

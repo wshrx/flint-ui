@@ -1,0 +1,29 @@
+---
+import { PREVIEWS, type PreviewName } from "./previews"
+
+/**
+ * Interactive specimen for a component page.
+ *
+ * The markup is HTML and CSS, not the native renderer. `previews.ts` adds the
+ * small delegated behaviour layer: switches, tabs, selects, dialogs, the
+ * context menu, a filterable combobox, a progress slider and a drop target.
+ */
+interface Props {
+  name: PreviewName
+  compact?: boolean
+  label?: string
+}
+
+const { name, compact = false, label } = Astro.props
+const html = PREVIEWS[name]
+if (!html) throw new Error(`No preview for ${name}`)
+---
+
+<figure class:list={["flint-preview", "not-content", { "flint-preview-compact": compact }]} data-preview={name}>
+  {label && <figcaption>{label}</figcaption>}
+  <div class="flint-preview-canvas" set:html={html} />
+</figure>
+
+<script>
+  import "../scripts/previews.ts"
+</script>

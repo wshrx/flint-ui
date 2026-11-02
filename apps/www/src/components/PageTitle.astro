@@ -1,0 +1,9 @@
+---
+import VersionNotice from "./LegacyNotice.astro"
+
+const { title, description } = Astro.locals.starlightRoute.entry.data
+---
+
+<div class="flint-version-notice"><VersionNotice /></div>
+<h1 id="_top">{title}</h1>
+{description && <p class="flint-page-description">{description}</p>}

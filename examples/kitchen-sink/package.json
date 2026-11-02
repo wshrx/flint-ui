@@ -1,0 +1,9 @@
+{
+  "name": "flint-kitchen-sink",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot app.tsx",
+    "start": "bun app.tsx"
+  }
+}
